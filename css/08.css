@@ -114,3 +114,12 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .pal-i span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .pal-i small{color:var(--mut);font-size:.85em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:45%}
 .pal-e{padding:var(--s4);color:var(--mut);text-align:center}
+
+/* v2.8.2 G01: напоминание «Разобрать входящие» */
+.tri-b{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px;margin:0 0 12px;box-shadow:var(--sh)}
+.tri-b>div:first-child{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tri-b span{color:var(--mut);font-size:13px}
+.tri-a{display:flex;gap:8px;flex-wrap:wrap}
+.tri-a button{min-height:44px;padding:0 14px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--tx);cursor:pointer}
+.tri-a button.xpri{background:var(--ac);color:#fff;border-color:var(--ac)}
+.tri-a button:focus-visible,.seg button:focus-visible{outline:2px solid var(--ac);outline-offset:2px}

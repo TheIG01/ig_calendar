@@ -441,6 +441,15 @@
 - open — js/18-palette.js:72
 - close — js/18-palette.js:77
 
+## js/19-triage.js
+- trDays — js/19-triage.js:4
+- dayDiff — js/19-triage.js:5
+- triDue — js/19-triage.js:6
+- triMark — js/19-triage.js:7
+- triBanner — js/19-triage.js:8
+- placeBanner — js/19-triage.js:14
+- ⚠ render — js/19-triage.js:20
+
 ## worker.js
 - J — worker.js:5
 - pad — worker.js:6
