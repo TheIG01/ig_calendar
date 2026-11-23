@@ -17,9 +17,9 @@ function workDone(){const T=S.timer;if(!T)return;const n=pn();LS={title:T.title|
 function endBreak(){BR=null;localStorage.removeItem('igbrk');note('Перерыв закончился','Возвращаемся к работе');if(LS){tstart();if(S.timer){Object.assign(S.timer,{title:LS.title,proj:LS.proj||'',goal:LS.goal||'',svc:LS.svc||''});if(LS.cat)S.timer.cat=LS.cat;save()}}if(open)build()}
 function tick(){const T=S.timer,n=Date.now();FB.hidden=open||!(T||BR);if(!FB.hidden)FB.textContent=(BR?'☕ ':'⏱ ')+(BR?ms2(BR.end-n):hms(n-T.t0));if(BR&&BR.end<=n){endBreak();return}if(T&&PM.on&&n-T.t0>=PM.w*6e4){workDone();return}paint()}
 setInterval(tick,1000);
-const t0=tstart,s0=tstop;
-tstart=function(){t0.apply(this,arguments);if(localStorage.igxfa!='0')XF.open()};
-tstop=function(){const keep=XF.auto;XF.auto=0;s0.apply(this,arguments);if(!keep){BR=null;localStorage.removeItem('igbrk');if(open)XF.close()}};
+
+window.tstart=function(){tstart0();if(localStorage.igxfa!='0')XF.open()};
+window.tstop=function(){const keep=XF.auto;XF.auto=0;tstop0();if(!keep){BR=null;localStorage.removeItem('igbrk');if(open)XF.close()}};
 window.XF={auto:0,
 open(f){if(!S.timer&&!BR&&!f&&0)return;open=1;O.hidden=false;build();wl();document.documentElement.requestFullscreen&&!document.fullscreenElement&&document.documentElement.requestFullscreen().catch(()=>{});tick()},
 min(){XF.close()},close(){open=0;O.hidden=true;WL&&WL.release&&WL.release();WL=null;document.fullscreenElement&&document.exitFullscreen&&document.exitFullscreen().catch(()=>{});tick()},

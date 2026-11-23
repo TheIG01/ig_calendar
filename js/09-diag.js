@@ -3,8 +3,8 @@ const Q=s=>document.querySelector(s),$=s=>document.getElementById(s),V=s=>($(s)|
 const BV='2026-11-20.7',hrs=m=>(m/60).toFixed(1).replace('.0','')+' ч';
 /* ===== Серия привычек: пропуск дня и «щит» (одна пропущенная отметка в неделю прощается) ===== */
 const dd=(a,b)=>Math.round((P(a)-P(b))/864e5);
-strk=function(e){let n=0,d=today(),lm=null;for(let i=0;i<400;i++,d=add(d,-1)){if(!occ(e,d))continue;if(e.done&&e.done[d]){n++;continue}if(e.skip&&e.skip[d])continue;if(d>=today())continue;if(S.set.shield===false)break;if(lm&&dd(lm,d)<7)break;lm=d}return n};
-best=function(e){let m=0,c=0,lm=null;const t=today();for(let i=-400;i<=0;i++){const d=add(t,i);if(!occ(e,d))continue;if(e.done&&e.done[d]){c++;if(c>m)m=c}else if(e.skip&&e.skip[d])continue;else if(d>=t)continue;else if(S.set.shield!==false&&(lm==null||dd(d,lm)>=7))lm=d;else{c=0;lm=null}}return m};
+window.strk=function(e){let n=0,d=today(),lm=null;for(let i=0;i<400;i++,d=add(d,-1)){if(!occ(e,d))continue;if(e.done&&e.done[d]){n++;continue}if(e.skip&&e.skip[d])continue;if(d>=today())continue;if(S.set.shield===false)break;if(lm&&dd(lm,d)<7)break;lm=d}return n};
+window.best=function(e){let m=0,c=0,lm=null;const t=today();for(let i=-400;i<=0;i++){const d=add(t,i);if(!occ(e,d))continue;if(e.done&&e.done[d]){c++;if(c>m)m=c}else if(e.skip&&e.skip[d])continue;else if(d>=t)continue;else if(S.set.shield!==false&&(lm==null||dd(d,lm)>=7))lm=d;else{c=0;lm=null}}return m};
 /* ===== Окно проекта ===== */
 const COL=['#2f6bff','#7c5cff','#0ea5a4','#16a34a','#f59e0b','#db2777','#e5484d','#64748b'];
 const PE=window.PE={id:'',c:COL[0]};
@@ -14,7 +14,7 @@ PE.col=c=>{PE.c=c;const t=V('zj1'),a=V('zj2'),b=V('zj3'),s=V('zj4');PE.open(PE.i
 PE.save=()=>{const t=V('zj1').trim().replace(/['"]/g,'');if(!t){$('zj1').focus();return}const o={t,c:PE.c,plan:+V('zj2')||0,rate:+V('zj3')||0,svc:V('zj4').split(',').map(x=>x.trim().replace(/['"]/g,'')).filter(Boolean)};S.proj=S.proj||[];if(PE.id){Object.assign(PJ(PE.id),o)}else S.proj.push({id:uid(),...o});save();render();XT.close();toast('Проект сохранён',1)};
 PE.arch=()=>{const p=PJ(PE.id);p.arch=p.arch?0:1;save();render();XT.close()};
 PE.del=()=>{const p=PJ(PE.id);if(!confirm('Удалить проект «'+p.t+'»? Этапы останутся, но без проекта.'))return;snap();S.proj=S.proj.filter(x=>x.id!=PE.id);S.ev.forEach(e=>{if(e.proj==PE.id){e.proj='';e.svc=''}});if(S.pf==PE.id)S.pf='';save();render();XT.close();toast('Проект удалён')};
-padd=function(){PE.open('')};pedit=function(id){PE.open(id)};
+window.padd=function(){PE.open('')};window.pedit=function(id){PE.open(id)};
 /* ===== Статистика фокуса ===== */
 const XD=window.XD=window.XD||{};
 XD.focus=()=>{const t=today(),A=[];for(let i=0;i<30;i++){const d=add(t,-i);S.ev.forEach(e=>{if(!(e.tags||[]).includes('таймер'))return;const o=occ(e,d);if(o)A.push({d,m:dur(o[0],o[1]),h:tm(o[0])/60|0,w:(P(d).getUTCDay()+6)%7})})}

@@ -5,7 +5,7 @@ const eq=(a,b,m)=>{if(JSON.stringify(a)!==JSON.stringify(b))throw new Error((m||
 // вырезает top-level оператор, начинающийся с `start`, до ближайшей границы, где код компилируется
 function cut(src,start){const L=src.split('\n'),i=L.findIndex(l=>l.startsWith(start));if(i<0)throw new Error('нет '+start);
 for(let j=i;j<L.length;j++){const nx=L[j+1]||'';if(j+1<L.length&&!/^(function|const|let|async function|\/\/|\/\*|\(\(|if\()/.test(nx))continue;const s=L.slice(i,j+1).join('\n');try{new vm.Script(s);return s}catch(e){}}throw new Error('не вырезано '+start)}
-const W=R('worker.js'),C=R('js/00-core.js');
+const W=R('worker.js'),C=R('js/00-core.js'),SH=R('shared/core.js');
 const pre=`const pad=n=>String(n).padStart(2,'0'),P=s=>new Date(s+'T00:00:00Z'),iso=d=>d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate()),add=(s,n)=>{const d=P(s);d.setUTCDate(d.getUTCDate()+n);return iso(d)},tm=s=>{const[a,b]=s.split(':');return a*60+ +b},hm=m=>pad(Math.floor(m/60)%24)+':'+pad(m%60);let S={set:{tz:3,ws:1},cats:{}};`;
 function load(src){const c={};vm.createContext(c);vm.runInContext(pre+cut(src,'const occ=')+'\n'+cut(src,'const WA_=')+'\n'+cut(src,'function parse(')+'\nthis.occ=occ;this.parse=parse;',c);return c}
 let site,wk;

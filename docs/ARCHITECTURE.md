@@ -65,3 +65,9 @@ Cloudflare Workers Free: ограниченное число запросов в
 
 ## Обновление v2.0: структура файлов
 index.html теперь только разметка. Стили: `css/00–07.css` (подключены в head по порядку). Скрипты: `js/00-version.js` (VERSION), затем `00-core, 01-ics, 02-menu, 03-hub, 04-merge, 05-focus, 06-tz, 07-smart, 08-tools, 09-diag` — тот же порядок, что был блоков `<script>`; позднее переопределяет раннее. Таблица «Блоки script» выше = эти файлы по номерам. Карта функций: `docs/MAP.md`.
+
+## Сборка и общее ядро (с v2.2)
+- `shared/core.js` — единственный источник `occ` и `parse` (+`WA_`). Правится только там.
+- `node tools/build.js` вставляет их между маркерами `/*@@BEGIN…*/…/*@@END…*/` в `js/00-core.js` и `worker.js`, ставит `?v=` в index.html, имя кеша в sw.js и `WVER` в worker.js (версия берётся из `js/00-version.js`).
+- `node tools/map.js` — пересобирает docs/MAP.md. `node tests/run.js` — автотесты.
+- Миграции: `SCHEMA` и `MIGS` в начале `js/00-core.js`; новая структура = новый шаг MIGS[N] + SCHEMA=N.

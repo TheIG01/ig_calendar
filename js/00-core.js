@@ -1,17 +1,25 @@
 const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0'),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 let S=JSON.parse(localStorage.igcal||'null')||{ev:[],tasks:[],habits:[],goals:[],pts:0,cats:{Работа:'#2f6bff',Учёба:'#12a150',Сон:'#8b5cf6',Спорт:'#f59e0b',Агентство:'#ef4444'},set:{theme:'light',ac:'#2f6bff',fs:15,r:12,tz:3,pw:''}};
 const save=()=>{typeof stampM=='function'&&stampM();S.u=Date.now();localStorage.igcal=JSON.stringify(S);push()};
-const mig=()=>{typeof hInit=='function'&&hInit();S.goals=S.goals||[];S.proj=S.proj||[];S.tpl=S.tpl||[];S.cats=S.cats||{};S.set=S.set||{};if(S.set.tz==null)S.set.tz=3;S.ev=S.ev||[];S.ev.forEach(e=>{if(typeof e.rep!='object'||!e.rep){const t=e.rep;e.rep={t:t=='weekdays'?'weekly':t||'none',n:1};if(t=='weekdays')e.rep.sched=Object.fromEntries([1,2,3,4,5].map(w=>[w,[e.st,e.en]]))}e.tags=e.tags||[];e.chk=e.chk||[];e.rem=e.rem||[];e.pri=e.pri||0})};mig();
+const mig1=()=>{typeof hInit=='function'&&hInit();S.goals=S.goals||[];S.proj=S.proj||[];S.tpl=S.tpl||[];S.cats=S.cats||{};S.set=S.set||{};if(S.set.tz==null)S.set.tz=3;S.ev=S.ev||[];S.ev.forEach(e=>{if(typeof e.rep!='object'||!e.rep){const t=e.rep;e.rep={t:t=='weekdays'?'weekly':t||'none',n:1};if(t=='weekdays')e.rep.sched=Object.fromEntries([1,2,3,4,5].map(w=>[w,[e.st,e.en]]))}e.tags=e.tags||[];e.chk=e.chk||[];e.rem=e.rem||[];e.pri=e.pri||0})};
+// Версионные миграции данных (S.v). Перед первой миграцией — автокопия в localStorage.igcal_bak_v<старая>.
+const SCHEMA=2,MIGS={1:()=>mig1(),2:()=>{S.trash=S.trash||[];S.hist=S.hist||[]}};
+const mig=()=>{const v0=S.v||0;if(v0>=SCHEMA){mig1();return}
+ try{if(v0&&localStorage.igcal)localStorage.setItem('igcal_bak_v'+v0,localStorage.igcal)}catch(e){}
+ for(let v=v0+1;v<=SCHEMA;v++){MIGS[v]&&MIGS[v]();S.v=v}
+ try{localStorage.igcal=JSON.stringify(S)}catch(e){}};mig();
 const tzNow=()=>new Date(Date.now()+S.set.tz*36e5),iso=d=>d.getUTCFullYear()+'-'+pad(d.getUTCMonth()+1)+'-'+pad(d.getUTCDate()),P=s=>new Date(s+'T00:00:00Z'),today=()=>iso(tzNow());
 const add=(s,n)=>{const d=P(s);d.setUTCDate(d.getUTCDate()+n);return iso(d)},wk=d=>add(d,-((P(d).getUTCDay()-(S.set.ws??1)+7)%7));
 const tm=s=>{const[a,b]=s.split(':');return a*60+ +b},hm=m=>pad(Math.floor(m/60)%24)+':'+pad(m%60),col=e=>e.col||S.cats[e.cat]||S.set.ac;
 let cur=today(),view=S.set.dv||(innerWidth<800?'day':'week'),tab='cal',q='',ce=null;
+/*@@BEGIN occ*/
 const occ=(e,d)=>{const r=e.rep||{t:'none'},n=r.n||1;if(d<e.date||(r.end&&d>r.end))return 0;if(e.ex&&e.ex.includes(d))return 0;const a=P(e.date),b=P(d),T=[e.st,e.en];
 if(r.t=='none')return d==e.date?T:0;
 if(r.t=='daily')return Math.round((b-a)/864e5)%n?0:T;
 if(r.t=='weekly'){const w=b.getUTCDay(),ds=r.sched?Object.keys(r.sched).map(Number):r.days?.length?r.days:[a.getUTCDay()];return ds.includes(w)&&!(Math.round((P(wk(d))-P(wk(e.date)))/6048e5)%n)?(r.sched?.[w]||T):0}
 if(r.t=='monthly')return b.getUTCDate()==a.getUTCDate()&&!(((b.getUTCFullYear()-a.getUTCFullYear())*12+b.getUTCMonth()-a.getUTCMonth())%n)?T:0;
 return b.getUTCDate()==a.getUTCDate()&&b.getUTCMonth()==a.getUTCMonth()&&!((b.getUTCFullYear()-a.getUTCFullYear())%n)?T:0};
+/*@@END occ*/
 const okf=e=>(!S.focus||S.focus==e.cat)&&(!S.pf||S.pf==e.proj&&(!S.sf||S.sf==e.svc))&&(!q||(e.title+(e.tags||[]).join(' ')+(e.note||'')).toLowerCase().includes(q)),dur=(a,b)=>{const m=tm(b)-tm(a);return m<0?m+1440:m};
 const evs0=d=>S.ev.flatMap(e=>{if(!okf(e))return[];const o=occ(e,d),p=occ(e,add(d,-1)),r=[];if(o)r.push({...e,st:o[0],en:tm(o[1])<tm(o[0])?'23:59':o[1],_d:d});if(p&&tm(p[1])<tm(p[0]))r.push({...e,st:'00:00',en:p[1],_d:add(d,-1),_c:1});return r}).sort((a,b)=>a.st.localeCompare(b.st));
 const evs=d=>{const L=evs0(d),T=S.timer;if(T&&okf({cat:T.cat,proj:T.proj,title:T.title||'',tags:[],note:''})){const a=new Date(T.t0+S.set.tz*36e5);if(iso(a)==d){const n=tzNow(),st=a.getUTCHours()*60+a.getUTCMinutes(),en=Math.min(1439,Math.max(st+1,n.getUTCHours()*60+n.getUTCMinutes()));L.push({id:'timer',title:T.title||'Без названия',st:hm(st),en:hm(en),cat:T.cat,proj:T.proj,pri:0,tags:[],rep:{t:'none',n:1},kind:'event',_live:1,_d:d})}}return L.sort((a,b)=>a.st.localeCompare(b.st))};
@@ -88,7 +96,6 @@ function delEv(){const id=dd.id;dd=null;dlg.close();if(id){snap();S.ev=S.ev.filt
 let HH=44;const SN=()=>+S.set.sn||15,DD=()=>+S.set.dd||60,DN=()=>(S.set.ws??1)?['Пн','Вт','Ср','Чт','Пт','Сб','Вс']:['Вс','Пн','Вт','Ср','Чт','Пт','Сб'];
 const FONTS={inter:'Inter,system-ui,sans-serif',manrope:'Manrope,Inter,system-ui,sans-serif',system:'system-ui,-apple-system,"Segoe UI",sans-serif',serif:'Georgia,"Times New Roman",serif'};
 const cbx=e=>e.kind&&e.kind!='event'?`<u class="cb ${e.done?.[e._d]?'on':''}" onclick="tdone(event,'${e.id}','${e._d}')"></u>`:'';
-function strk(e){let n=0,d=today();for(let i=0;i<400;i++,d=add(d,-1)){if(!occ(e,d))continue;if(e.done?.[d])n++;else if(d<today())break}return n}
 function beep(){if(!S.set.snd)return;const a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.frequency.value=880;g.gain.setValueAtTime(.08,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.25);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.25)}
 function tdone(ev,id,d){ev.stopPropagation();const o=S.ev.find(v=>v.id==id);o.done=o.done||{};if(o.done[d]){delete o.done[d];S.pts=(S.pts||0)-10}else{o.done[d]=1;S.pts=(S.pts||0)+10;if(S.set.fx??1)fx(ev.clientX,ev.clientY);beep();setTimeout(()=>cheer(o,d),400)}save();render()}
 function gst0(g){const t=today(),f=t.slice(0,8)+'01',n=new Date(Date.UTC(+t.slice(0,4),+t.slice(5,7),0)).getUTCDate();let p=0,d=0;for(let i=0;i<n;i++){const x=add(f,i);S.ev.forEach(e=>{if(e.goal==g.id&&e.kind&&e.kind!='event'&&occ(e,x)){p++;if(e.done?.[x])d++}})}return[d,p]}
@@ -99,6 +106,7 @@ function vSet2(){return `<div class="card"><h3>Календарь</h3>${sw('Пл
 function vTime(){const w=wk(cur),t={};for(let i=0;i<7;i++){const x=add(w,i);S.ev.forEach(e=>{const o=occ(e,x);if(o)t[e.cat]=(t[e.cat]||0)+dur(o[0],o[1])})}const mx=Math.max(1,...Object.values(t));
 return `<div class="cats"><h4>Время за неделю</h4>${Object.entries(S.cats).map(([n,c])=>{const m=t[n]||0;return `<button class="tr ${S.focus==n?'on':''} ${S.focus&&S.focus!=n?'off':''}" style="--c:${c}" title="Показать только «${esc(n)}»" onclick="fcs('${n}')"><i></i><b>${esc(n)}</b><span>${m?(m/60).toFixed(m%60?1:0).replace('.',',')+' ч':'—'}</span><div class="pb"><i style="width:${m/mx*100}%"></i></div></button>`}).join('')}${S.focus?'<button class="lnk" onclick="fcs(\'\')">Показать все темы</button>':''}</div>`}
 const fcs=n=>{S.focus=S.focus==n?'':n;save();render()};
+/*@@BEGIN parse*/
 const WA_='(?:понедельник\\S*|вторник\\S*|сред\\S*|четверг\\S*|пятниц\\S*|суббот\\S*|воскресень\\S*|пн|вт|ср|чт|пт|сб|вс)(?=[\\s,.!?])',WN_=s=>({во:0,вс:0,по:1,пн:1,вт:2,ср:3,че:4,чт:4,пя:5,пт:5,су:6,сб:6})[s.slice(0,2).toLowerCase()],MI_=['янв','фев','мар','апр','мая','июн','июл','авг','сен','окт','ноя','дек'];
 function parse(t,today,now){let d=today,st='09:00',du=60,x=' '+t.replace(/[,;]/g,' ')+' ',hd=0,ht=0,e2=null,r,rp=null,ad=0;
 const T=(a,b)=>pad(+a)+':'+pad(+(b||0)),R=(re,f)=>{if(rp)return;const m=x.match(re);if(m){rp=f(m);x=x.replace(m[0],' ');hd=1}};
@@ -132,6 +140,7 @@ else if(r=x.match(/(\d{1,2})\s+числа/i)){let y=+today.slice(0,4),m=+today.s
 let ti=x.replace(/\s+/g,' ').trim().replace(/^(?:(?:в|во|на|с|по|к|и)\s+)+/i,'').replace(/(?:\s+(?:в|во|на|с|по|к|и))+$/i,'');ti=ti.charAt(0).toUpperCase()+ti.slice(1);
 const en=e2||hm(Math.min(1439,tm(st)+du));let rep=null;if(rp){rep={t:rp.t,n:rp.n||1};if(rp.t=='weekly'){const ds=rp.days&&rp.days.length?rp.days:[P(d).getUTCDay()];rep.sched=Object.fromEntries(ds.map(w=>[w,[st,en]]))}}
 return{date:d,st:ad?'00:00':st,en:ad?'00:00':en,title:ti,hd,ht,rep,ad}}
+/*@@END parse*/
 const nlp=(t,d)=>parse(t,d,tzNow());
 const KP=/^(задача|привычка)[\s:,-]+/i;
 function openCmd(){$('#cmd').hidden=false;$('#ci').value='';cmdp();$('#ci').focus()}
@@ -152,7 +161,6 @@ const hr=m=>(m/60).toFixed(m%60?1:0).replace('.',',')+' ч',PJ=id=>(S.proj||[]).
 function pst0(p){let w=0,l=0;const t=today();for(let i=-400;i<=120;i++){const d=add(t,i);S.ev.forEach(e=>{if(e.proj!=p.id)return;const o=occ(e,d);if(!o)return;const m=dur(o[0],o[1]);(d<t||e.done?.[d])?w+=m:l+=m})}return[w,l]}
 function vProj(){return `<div class="cats"><h4>Проекты</h4>${(S.proj||[]).map(p=>{const[w,l]=pst(p);return `<button class="tr ${S.pf==p.id?'on':''} ${S.pf&&S.pf!=p.id?'off':''}" style="--c:${p.c}" onclick="pfs('${p.id}')" oncontextmenu="pedit('${p.id}');return false"><i></i><b>${esc(p.t)}</b><span>${hr(w)} · ост. ${hr(l)}</span></button>`}).join('')}<button class="lnk" onclick="padd()">+ Новый проект</button></div>`}
 const pfs=id=>{S.pf=S.pf==id?'':id;S.sf='';save();render()};
-function padd(){const t=(prompt('Название проекта (например, ДомНОВ)')||'').replace(/['"]/g,'').trim();if(!t)return;S.proj=S.proj||[];S.proj.push({id:uid(),t,c:'#'+['2f6bff','7c5cff','0ea5a4','16a34a','f59e0b','db2777'][S.proj.length%6],svc:['Сайты','Реклама','SEO','Контент']});save();render()}
 let cdr=-1;function cdrop(i){if(cdr<0||cdr==i)return;const[x]=dd.chk.splice(cdr,1);dd.chk.splice(i,0,x);cdr=-1;dre()}
 function shT(k,m){const u=tm(dd.en)-tm(dd.st);dd[k]=fm(Math.max(0,Math.min(1439,tm(dd[k])+m)));if(k=='st')dd.en=fm(Math.min(1439,tm(dd.st)+u));dre()}
 function tpl(i){const t=S.tpl[i],ti=dd.title;Object.assign(dd,structuredClone(t.f));if(ti)dd.title=ti;dre()}
@@ -174,9 +182,6 @@ const mmo=new Map();let mu;const memo=(k,f)=>{if(mu!==S.u){mmo.clear();mu=S.u}if
 const pss=p=>memo('s'+p.id+today(),()=>{const r={},t=today();for(let i=-400;i<=120;i++){const d=add(t,i);S.ev.forEach(e=>{if(e.proj!=p.id)return;const o=occ(e,d);if(o){const k=e.svc||'Без услуги';r[k]=(r[k]||0)+dur(o[0],o[1])}})}return r});
 function vPH(){const p=PJ(S.pf);if(!p)return'';const[w,l]=pst(p),pl=(+p.plan||0)*60,sv=pss(p);return `<div class="ph"><div><b>${esc(p.t)}</b><span>Отработано ${hr(w)}${pl?' · по плану осталось '+hr(Math.max(0,pl-w))+' из '+hr(pl):' · запланировано ещё '+hr(l)}</span></div>${pl?`<div class="pb"><i style="width:${Math.min(100,w/pl*100)}%"></i></div>`:''}<div class="pills">${(p.svc||[]).map(v=>`<button class="pl ${S.sf==v?'on':''}" onclick="sfs('${v}')">${esc(v)} · ${hr(sv[v]||0)}</button>`).join('')}<button class="lnk" onclick="pedit('${p.id}')">Настроить проект</button><button class="lnk" onclick="pfs('${p.id}')">Показать всё</button></div></div>`}
 const sfs=v=>{S.sf=S.sf==v?'':v;save();render()};
-function pedit(id){const p=PJ(id);if(!p)return;const n=prompt('Название проекта (пусто — удалить)',p.t);if(n===null)return;
-if(!n.trim()){if(confirm('Удалить проект «'+p.t+'»? Этапы останутся.')){S.proj=S.proj.filter(x=>x.id!=id);S.ev.forEach(e=>{if(e.proj==id){e.proj='';e.svc=''}});if(S.pf==id)S.pf='';save();render()}return}
-p.t=n.trim().replace(/['"]/g,'');const a=prompt('Общий план часов по проекту (0 — без плана)',p.plan||0);if(a!==null)p.plan=+String(a).replace(',','.')||0;const v=prompt('Услуги через запятую',(p.svc||[]).join(', '));if(v!==null)p.svc=v.split(',').map(x=>x.trim().replace(/['"]/g,'')).filter(Boolean);save();render()}
 const MB=['Сейчас','Дальше','Таймер','Сегодня','Завтра','Неделя','Итоги','Проекты','Цели','Привычки','Свободно','Отчёт','Аффирмация','Помощь'],menu=()=>S.set.menu||['Сейчас','Дальше','Сегодня','Завтра','Неделя','Помощь'];
 function vMenu(){return `<div class="srow" style="display:block"><span>Кнопки меню бота</span><div class="pills">${MB.map(b=>`<button class="pl ${menu().includes(b)?'on':''}" onclick="mbt('${b}')">${b}</button>`).join('')}</div></div>`}
 function mbt(b){const a=menu().slice(),i=a.indexOf(b);i<0?a.push(b):a.splice(i,1);sv2('menu',a)}
@@ -186,8 +191,8 @@ const tsave=()=>{clearTimeout(tsave.t);tsave.t=setTimeout(save,800)},tfocus=()=>
 function tup(){const e=$('#tm');if(!e)return;const T=S.timer;if(!T){if(e.dataset.r!='0'){e.dataset.r='0';e.innerHTML='<button class="kbtn" onclick="tstart()">Запустить таймер</button>'}return}
 const q=Math.floor((Date.now()-T.t0)/1e3);if(e.dataset.r!='1'){e.dataset.r='1';e.innerHTML=`<span class="tmr"><i></i><b id="tt"></b><input id="tn" placeholder="Над чем работаете?" value="${esc(T.title||'')}" oninput="S.timer.title=this.value;tsave()"><button onclick="tstop()">Стоп</button><button class="x" onclick="tcancel()">×</button></span>`}
 $('#tt').textContent=`${pad(Math.floor(q/3600))}:${pad(Math.floor(q/60)%60)}:${pad(q%60)}`}
-function tstart(){if(S.timer)return;S.timer={t0:Date.now(),title:'',cat:S.last&&S.cats[S.last]?S.last:Object.keys(S.cats)[0],proj:S.pf||''};save();tup();render();tfocus()}
-function tstop(){const T=S.timer;if(!T)return;const a=new Date(T.t0+S.set.tz*36e5),b=tzNow(),st=a.getUTCHours()*60+a.getUTCMinutes();let en=b.getUTCHours()*60+b.getUTCMinutes();if(en==st)en=Math.min(1439,st+1);snap();const e={id:uid(),title:(T.title||'').trim(),date:iso(a),st:hm(st),en:hm(en),cat:T.cat,pri:0,tags:['таймер'],rep:{t:'none',n:1},note:'',loc:'',url:'',chk:[],rem:[],kind:'event',proj:T.proj||'',svc:T.svc||'',goal:T.goal||''};S.ev.push(e);S.timer=null;nid=e.id;save();tup();render();if(!e.title)openEv(e.id);else toast('Записано: '+hr(dur(e.st,e.en)))}
+function tstart0(){if(S.timer)return;S.timer={t0:Date.now(),title:'',cat:S.last&&S.cats[S.last]?S.last:Object.keys(S.cats)[0],proj:S.pf||''};save();tup();render();tfocus()}
+function tstop0(){const T=S.timer;if(!T)return;const a=new Date(T.t0+S.set.tz*36e5),b=tzNow(),st=a.getUTCHours()*60+a.getUTCMinutes();let en=b.getUTCHours()*60+b.getUTCMinutes();if(en==st)en=Math.min(1439,st+1);snap();const e={id:uid(),title:(T.title||'').trim(),date:iso(a),st:hm(st),en:hm(en),cat:T.cat,pri:0,tags:['таймер'],rep:{t:'none',n:1},note:'',loc:'',url:'',chk:[],rem:[],kind:'event',proj:T.proj||'',svc:T.svc||'',goal:T.goal||''};S.ev.push(e);S.timer=null;nid=e.id;save();tup();render();if(!e.title)openEv(e.id);else toast('Записано: '+hr(dur(e.st,e.en)))}
 function tcancel(){if(S.timer&&(Date.now()-S.timer.t0<3e5||confirm('Отменить таймер без записи?'))){S.timer=null;save();tup();render()}}
 function vTasksSide(){const t=today(),L=[];for(let i=-14;i<=7;i++){const d=add(t,i);S.ev.forEach(e=>{if(e.kind!='task')return;const o=occ(e,d);if(o&&!e.done?.[d])L.push({e,d,o})})}L.sort((a,b)=>a.d.localeCompare(b.d)||a.o[0].localeCompare(b.o[0]));
 return `<div class="cats"><h4>Задачи</h4>${L.slice(0,8).map(({e,d,o})=>`<div class="tk ${d<t?'od':''}"><u class="cb" style="--c:${col(e)}" onclick="tdone(event,'${e.id}','${d}')"></u><span onclick="openEv('${e.id}')">${esc(e.title||'Без названия')}</span><small>${d==t?o[0]:d<t?'просрочено':fd(d,{day:'numeric',month:'short'})}</small></div>`).join('')||'<small style="color:var(--mut)">Открытых задач нет</small>'}</div>`}
@@ -234,7 +239,6 @@ return `<div class="rpw"><div class="rph nop"><div class="seg">${[['day','Ден
 ${rpv=='day'?dayRep(a):rpv!='year'?tbl:''}</div>`}
 const fn=v=>(+(+v).toFixed(1)).toLocaleString('ru'),lv=p=>Math.floor(Math.sqrt((p||0)/40))+1,GN=id=>(S.goals.find(g=>g.id==id)||{}).t,SH=location.hash.startsWith('#s='),inStrip=e=>e.ad||(e.kind=='habit'&&!e.grid&&!e._live);
 function spn(a,b){let y=b.getUTCFullYear()-a.getUTCFullYear(),m=b.getUTCMonth()-a.getUTCMonth(),d=b.getUTCDate()-a.getUTCDate(),h=b.getUTCHours()-a.getUTCHours(),mi=b.getUTCMinutes()-a.getUTCMinutes();if(mi<0){mi+=60;h--}if(h<0){h+=24;d--}if(d<0){d+=new Date(Date.UTC(b.getUTCFullYear(),b.getUTCMonth(),0)).getUTCDate();m--}if(m<0){m+=12;y--}return[y?y+' г.':'',m?m+' мес.':'',d?d+' дн.':'',h?h+' ч':'',(!y&&!m&&!d&&!h)?mi+' мин':''].filter(Boolean).join(' ')}
-function best(e){let m=0,c=0;for(let i=-400;i<=0;i++){const d=add(today(),i);if(!occ(e,d))continue;if(e.done?.[d]){c++;m=Math.max(m,c)}else c=0}return m}
 const heat=e=>`<div class="hqs">${[...Array(30)].map((_,i)=>{const d=add(today(),i-29),o=occ(e,d);return `<i class="hq ${o?(e.done?.[d]?'y':'n'):''}" title="${d}"></i>`}).join('')}</div><small>Серия ${strk(e)} · рекорд ${best(e)}</small>`;
 function cdLine(){const e=dd;if(!e||!e.date)return'';const od=e.rep.t=='none'?e.date:(()=>{for(let i=0;i<400;i++){const d=add(today(),i);if(occ(e,d))return d}return e.date})(),n=tzNow(),a=new Date(`${od}T${e.ad?'00:00':e.st}:00Z`),b=new Date(`${od}T${e.ad?'23:59':e.en}:00Z`);return `<div class="ds cd"><b>${n<a?'Через '+spn(n,a):n>b?'Прошло '+spn(a,n):'Идёт сейчас'}</b><small>${fd(od,{weekday:'long',day:'numeric',month:'long',year:'numeric'})}${e.ad?'':', '+e.st}</small>${e.kind=='habit'?heat(e):''}</div>`}
 function adt(){dd.ad=!dd.ad;if(dd.ad){dd.st='00:00';dd.en='00:00'}else{dd.st='09:00';dd.en='10:00'}dre()}
