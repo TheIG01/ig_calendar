@@ -18,7 +18,7 @@ else if(a=='tom')mv(e,d,s,s+L,1);
 else if(a=='skip')e.ex=[...(e.ex||[]),d];
 else if(a=='dup'){const c=structuredClone(e);c.id=uid();c.title+=' (копия)';c.done={};S.ev.push(c)}
 else if(a=='dup1'||a=='dup7'){const c=structuredClone(e);c.id=uid();c.done={};c.date=add(e.date,a=='dup1'?1:7);S.ev.push(c)}
-else if(a=='del')S.ev=S.ev.filter(x=>x.id!=e.id);
+else if(a=='del'){trashPut([e]);S.ev=S.ev.filter(x=>x.id!=e.id)}
 save();render();if(!A.hidden)ag();toast(a=='del'?'Этап удалён':'Готово')}
 function menu(t,items){const C=SH.lastChild;C.innerHTML=`<b>${H(t)}</b><div class="xsg" style="margin-top:10px">${items.map((x,i)=>`<button data-i="${i}"><i>${x[2]||''}</i><span>${H(x[0])}</span></button>`).join('')}</div>`;C.querySelectorAll('button').forEach(b=>b.onclick=()=>{snap();items[b.dataset.i][1]();save();render();SH.hidden=true;if(!A.hidden)ag();toast('Готово')});SH.hidden=false}
 function ask(t,v,fn){const C=SH.lastChild;C.innerHTML=`<b>${H(t)}</b><textarea id="xsa" rows="3" class="xsta">${H(v)}</textarea><button class="xsg1" id="xso">Сохранить</button>`;SH.hidden=false;const i=C.querySelector('#xsa');setTimeout(()=>i.focus(),60);C.querySelector('#xso').onclick=()=>{snap();fn(i.value.trim());save();render();SH.hidden=true;if(!A.hidden)ag();toast('Готово')}}

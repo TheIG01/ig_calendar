@@ -1,7 +1,7 @@
 (()=>{
 const Q=s=>document.querySelector(s),H=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),hh=m=>(m/60).toFixed(1).replace('.0','')+' ч',fm=v=>Math.round(v).toLocaleString('ru')+' ₽',X={ov:0,tot:0};
 function dl(n,t,ty){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:ty||'application/json'}));a.download=n;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5e3)}
-function atz(){if(S.set.tzset==null){S.set.tz=3;S.set.tzfix=true;S.set.tzset=1;save();render();return}if(S.set.tzfix)return;const z=-new Date().getTimezoneOffset()/60;if(S.set.tz!==z){S.set.tz=z;save();render()}}
+function atz(){if(S.set.tzn&&S.set.tzfix&&window.tzOffH){const o=tzOffH(S.set.tzn);if(o!=null&&S.set.tz!==o){S.set.tz=o;save();render()}return}if(S.set.tzset==null){S.set.tz=3;S.set.tzfix=true;S.set.tzset=1;save();render();return}if(S.set.tzfix)return;const z=-new Date().getTimezoneOffset()/60;if(S.set.tz!==z){S.set.tz=z;save();render()}}
 const M=document.createElement('div');M.id='xm';M.hidden=true;M.innerHTML='<div class="xc"><div class="xh"><b id="xt"></b><button onclick="XT.close()">×</button></div><div id="xb"></div></div>';document.body.appendChild(M);
 M.onclick=e=>{if(e.target==M)XT.close()};
 const nb=document.createElement('div');nb.id='xoff';document.body.appendChild(nb);

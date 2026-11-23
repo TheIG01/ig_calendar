@@ -71,3 +71,5 @@ index.html теперь только разметка. Стили: `css/00–07.
 - `node tools/build.js` вставляет их между маркерами `/*@@BEGIN…*/…/*@@END…*/` в `js/00-core.js` и `worker.js`, ставит `?v=` в index.html, имя кеша в sw.js и `WVER` в worker.js (версия берётся из `js/00-version.js`).
 - `node tools/map.js` — пересобирает docs/MAP.md. `node tests/run.js` — автотесты.
 - Миграции: `SCHEMA` и `MIGS` в начале `js/00-core.js`; новая структура = новый шаг MIGS[N] + SCHEMA=N.
+
+- `js/10-data.js`: ask(), trashPut(), hist(), XT.trash/XT.hist. Поля: S.trash [{t,e}], S.hist [{t,a,n}], S.set.tzn (IANA), S.set.trashDays.
