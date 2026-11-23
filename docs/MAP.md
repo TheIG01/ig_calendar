@@ -467,6 +467,18 @@
 - MOVE — js/20-batch.js:48
 - ⚠ vKWrap — js/20-batch.js:81
 
+## js/21-tasks.js
+- depTarget — js/21-tasks.js:3
+- depDone — js/21-tasks.js:4
+- depOpts — js/21-tasks.js:5
+- tvSwitch — js/21-tasks.js:19
+- tvOpen — js/21-tasks.js:20
+- tvRow — js/21-tasks.js:21
+- tvFlat — js/21-tasks.js:22
+- tvSec — js/21-tasks.js:23
+- tvTimeline — js/21-tasks.js:24
+- ⚠ vKWrap — js/21-tasks.js:27
+
 ## worker.js
 - J — worker.js:5
 - pad — worker.js:6
@@ -532,9 +544,9 @@
 - limited — worker.js:227
 - route — worker.js:228
 - runAcc — worker.js:233
-- okL — worker.js:239
-- b64 — worker.js:240
-- hp2 — worker.js:241
-- mkCred — worker.js:242
-- chk — worker.js:243
-- mkT — worker.js:244
+- okL — worker.js:240
+- b64 — worker.js:241
+- hp2 — worker.js:242
+- mkCred — worker.js:243
+- chk — worker.js:244
+- mkT — worker.js:245

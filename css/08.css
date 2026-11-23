@@ -131,3 +131,13 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .bx-t small{color:var(--mut)}
 .bx-list{max-height:46vh;overflow:auto;margin:8px 0}
 .bx-act{display:grid;gap:8px;padding-top:10px}
+
+/* v2.8.6: виды задач (Список / Таймлайн) и «⛔ ждёт» */
+.tvw{margin:6px 0 10px}
+.tvw button{min-height:44px}
+.tld{margin:6px 0 12px;padding-left:12px;border-left:3px solid rgba(127,137,160,.35)}
+.tld h5{margin:4px 0;font-size:13px;display:flex;justify-content:space-between;color:inherit;opacity:.8}
+.tld h5 span{font-weight:600}
+.tld.emp h5{opacity:.5}
+.tle{margin:2px 0 6px;font-size:12px;opacity:.6}
+#dpS{min-height:44px;width:100%;border-radius:10px;padding:0 10px}
