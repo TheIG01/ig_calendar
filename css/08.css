@@ -61,3 +61,16 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 #ctxm{position:fixed;z-index:400;min-width:190px;padding:6px;background:var(--card,#fcfdff);border:1px solid var(--bd,#e3e7ef);border-radius:12px;box-shadow:0 10px 30px rgba(26,33,51,.18)}
 #ctxm[hidden]{display:none}#ctxm button{display:block;width:100%;text-align:left;padding:9px 12px;border:0;background:none;border-radius:8px;font:inherit;color:inherit;cursor:pointer}
 #ctxm button:hover,#ctxm button:focus-visible{background:rgba(47,107,255,.1)}#ctxm button.dng{color:#d33}
+/* v2.6: слои, конфликты, тихие зоны, свободные окна */
+#lyb{padding:0 0 8px;gap:6px;flex-wrap:wrap;display:flex}
+#lyb .pl{min-height:32px}
+#lyb .lyc.off{opacity:.45;text-decoration:line-through}
+#lyb .pl[aria-pressed=true]:not(.lyc){background:var(--ac);color:#fff}
+@media(pointer:coarse){#lyb .pl{min-height:44px}}
+.qz{position:absolute;left:0;right:0;background:color-mix(in srgb,var(--mut) 10%,transparent);pointer-events:none;z-index:0}
+.fw{position:absolute;left:2px;right:2px;z-index:1;border:1.5px dashed color-mix(in srgb,var(--ac) 55%,transparent);background:color-mix(in srgb,var(--ac) 7%,transparent);color:var(--ac);border-radius:8px;font-size:.72em;cursor:pointer;opacity:.9;text-align:left;padding:2px 6px}
+.fw:hover,.fw:focus-visible{background:color-mix(in srgb,var(--ac) 16%,transparent)}
+.ev.cfl::after{content:"⚠";position:absolute;right:3px;top:1px;font-size:.8em;color:#d97706}
+.ev:focus-visible{outline:2px solid var(--ac);outline-offset:1px;z-index:5}
+.ev.sm.xp{height:auto!important;min-height:var(--h);white-space:normal;flex-wrap:wrap;z-index:6;box-shadow:0 4px 14px rgba(15,23,41,.25)}
+.hrs em.h2{position:absolute;top:5px;right:8px;font-size:.62em;font-style:normal;color:var(--mut);opacity:.8}

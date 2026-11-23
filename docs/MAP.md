@@ -373,6 +373,26 @@
 - clr — js/13-edit.js:23
 - hide — js/13-edit.js:32
 
+## js/14-layers.js
+- Q — js/14-layers.js:3
+- hid — js/14-layers.js:4
+- evOf — js/14-layers.js:5
+- colorOf — js/14-layers.js:9
+- paint — js/14-layers.js:14
+- conflicts — js/14-layers.js:17
+- WH — js/14-layers.js:21
+- FR — js/14-layers.js:22
+- busy — js/14-layers.js:23
+- gaps — js/14-layers.js:24
+- zones — js/14-layers.js:25
+- findTime — js/14-layers.js:31
+- tz2 — js/14-layers.js:35
+- bar — js/14-layers.js:38
+- prio — js/14-layers.js:47
+- mkFocusable — js/14-layers.js:52
+- near — js/14-layers.js:53
+- ⚠ render — js/14-layers.js:65
+
 ## worker.js
 - J — worker.js:5
 - pad — worker.js:6
