@@ -88,3 +88,7 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .hq{width:36px;height:36px}
 .seg button{min-height:36px;padding:6px 12px}
 @media (pointer:coarse),(max-width:800px){.hq{width:44px;height:44px}.seg button{min-height:44px}input[type=range]{min-height:44px}}
+
+/* v2.7.6: срок пункта чек-листа (O05) */
+.ckd{border:0;background:none;color:var(--mut);font:inherit;font-size:.85em;max-width:130px;min-height:36px}
+@media (pointer:coarse),(max-width:800px){.ckd{min-height:44px}}
