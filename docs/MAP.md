@@ -393,6 +393,21 @@
 - near — js/14-layers.js:53
 - ⚠ render — js/14-layers.js:65
 
+## js/15-quick.js
+- Q — js/15-quick.js:3
+- toM — js/15-quick.js:4
+- hist — js/15-quick.js:6
+- hpush — js/15-quick.js:7
+- pick — js/15-quick.js:8
+- qparse — js/15-quick.js:9
+- full — js/15-quick.js:15
+- chip — js/15-quick.js:18
+- ⚠ cmdp — js/15-quick.js:19
+- ⚠ cmdgo — js/15-quick.js:28
+- filled — js/15-quick.js:45
+- secs — js/15-quick.js:47
+- toggleSec — js/15-quick.js:55
+
 ## worker.js
 - J — worker.js:5
 - pad — worker.js:6

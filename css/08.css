@@ -74,3 +74,13 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .ev:focus-visible{outline:2px solid var(--ac);outline-offset:1px;z-index:5}
 .ev.sm.xp{height:auto!important;min-height:var(--h);white-space:normal;flex-wrap:wrap;z-index:6;box-shadow:0 4px 14px rgba(15,23,41,.25)}
 .hrs em.h2{position:absolute;top:5px;right:8px;font-size:.62em;font-style:normal;color:var(--mut);opacity:.8}
+/* v2.7: быстрый ввод и секции панели этапа */
+.qp{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}.qh{margin-bottom:4px}
+.qc{border:1px solid color-mix(in srgb,var(--c,var(--mut)) 40%,transparent);background:color-mix(in srgb,var(--c,var(--mut)) 12%,transparent);color:var(--tx);border-radius:999px;padding:4px 10px;font:inherit;font-size:.9em;min-height:32px}
+.qc.ro{cursor:default}.qt{font-weight:600;color:var(--tx)}
+.ds.sc>:not(label){display:none}
+.ds[data-sec]>label{display:flex;align-items:center;gap:8px;cursor:pointer;min-height:44px}
+.ds[data-sec]>label::after{content:"▾";margin-left:auto;color:var(--mut);transition:transform var(--t-fast)}
+.ds.sc[data-sec]>label::after{transform:rotate(-90deg)}
+.qsum{font-weight:400;color:var(--mut);font-size:.9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}
+.qjoin{display:inline-block;text-decoration:none;margin-top:6px}
