@@ -21,6 +21,13 @@ if(site)for(const [n,c] of [['сайт',site],['бот',wk]]){if(!c)continue;
  t(n+': parse «завтра в 15:00 созвон на 1ч»',()=>{const r=c.parse('завтра в 15:00 созвон на 1ч','2026-11-23',new Date());const x=Array.isArray(r)?r[0]:r;eq(x.date,'2026-11-24');eq(x.st,'15:00');eq(x.en,'16:00')});
  t(n+': parse длительность 90 минут',()=>{const r=c.parse('сегодня в 10:00 встреча на 90 мин','2026-11-23',new Date());const x=Array.isArray(r)?r[0]:r;eq(x.st,'10:00');eq(x.en,'11:30')});
 }
+
+for(const [n,c] of [['сайт',site],['бот',wk]]){if(!c)continue;
+ t(n+': 2-й вторник месяца',()=>{const e={date:'2026-11-10',st:'10:00',en:'11:00',rep:{t:'monthly',n:1,mo:{ord:2,wd:2}}};eq(!!c.occ(e,'2026-11-10'),true);eq(!!c.occ(e,'2026-11-17'),false);eq(!!c.occ(e,'2026-12-08'),true)});
+ t(n+': последний рабочий день месяца',()=>{const e={date:'2026-11-01',st:'10:00',en:'11:00',rep:{t:'monthly',n:1,mo:{ord:-1,wd:8}}};eq(!!c.occ(e,'2026-11-30'),true);eq(!!c.occ(e,'2026-11-27'),false)});
+ t(n+': разбор «каждый 2-й вторник»',()=>{const r=c.parse('каждый 2-й вторник созвон в 10:00','2026-11-23',new Date());const x=Array.isArray(r)?r[0]:r;eq(x.rep.t,'monthly');eq(x.rep.mo,{ord:2,wd:2})});
+ t(n+': разбор «каждый последний рабочий день месяца»',()=>{const r=c.parse('каждый последний рабочий день месяца отчёт','2026-11-23',new Date());const x=Array.isArray(r)?r[0]:r;eq(x.rep.mo,{ord:-1,wd:8})});
+}
 // слияние
 function loadMerge(){const c={S:{ev:[],goals:[],proj:[],tpl:[],inbox:[]}};vm.createContext(c);vm.runInContext(R('js/04-merge.js')+'\nthis.mergeS=mergeS;this.stampM=stampM;this.sySj=sySj;',c);return c}
 let M;t('загрузка слияния',()=>{M=loadMerge()});
