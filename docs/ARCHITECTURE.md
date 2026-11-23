@@ -74,3 +74,6 @@ index.html теперь только разметка. Стили: `css/00–07.
 
 - `js/10-data.js`: ask(), trashPut(), hist(), XT.trash/XT.hist. Поля: S.trash [{t,e}], S.hist [{t,a,n}], S.set.tzn (IANA), S.set.trashDays.
 - `js/11-ui.js` (с v2.3): `ui.confirm/choose/prompt/copy/empty`, `ic()`; `css/08.css`: токены и состояния компонентов. Новый код использует их вместо системных окон.
+
+## v2.4: js/12-settings.js
+Центр настроек: `setTop()` (поиск, профили, сброс), `vLook()` (карточка «Внешний вид»), `setPost()` (после отрисовки добавляет «?»/«↺» к строкам с `sv2('ключ'…)`). Профили: встроенные `PROF` + `S.set.cprof`. Тема `time` — `themeNow()` в 00-core.js. Клики — делегирование `data-act`.

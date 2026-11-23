@@ -33,5 +33,14 @@ if(M){const ev=(id,m,x)=>({id,_m:m,t:x||id});
  t('merge: не меняет исходные объекты',()=>{const a={u:2,ev:[ev('a',1)]},j=JSON.stringify(a);M.mergeS(a,{u:1,ev:[ev('b',1)]});eq(JSON.stringify(a),j)});
  t('нет alert/prompt/confirm в js/',()=>{const fs=require('fs'),bad=[];fs.readdirSync(__dirname+'/../js').forEach(f=>{const x=fs.readFileSync(__dirname+'/../js/'+f,'utf8');if(/(^|[^\w.])(alert|prompt|confirm)\(/.test(x))bad.push(f)});eq(bad,[])});
  t('ui: файл 11-ui.js и css/08.css подключены',()=>{const fs=require('fs'),h=fs.readFileSync(__dirname+'/../index.html','utf8'),w=fs.readFileSync(__dirname+'/../sw.js','utf8');eq(/11-ui\.js/.test(h)&&/08\.css/.test(h)&&/11-ui\.js/.test(w)&&/08\.css/.test(w),true)});
+
+ t('v2.4: 12-settings.js подключён; тема по времени; проверка файла темы',()=>{const fs=require('fs'),h=R('index.html'),w=R('sw.js');eq(/12-settings\.js/.test(h)&&/12-settings\.js/.test(w),true);
+  const c={};vm.createContext(c);const S12=R('js/12-settings.js');
+  const m=S12.match(/const thVal=[\s\S]*?Object\.keys\(r\)\.length\?r:null\};/)[0];
+  vm.runInContext("const TH=['light','dark','sleep','study','auto','time'],FN=['inter','manrope','system','serif'];"+m+";this.f=thVal",c);
+  eq(c.f({igTheme:1,ac:'#ABCDEF',fs:99,r:10,font:'x'}),{ac:'#abcdef',r:10});eq(c.f({ac:'#fff'}),null);eq(c.f(null),null);
+  const th=C.match(/function themeNow\(s\)\{[\s\S]*?return s\.theme\}/)[0];vm.runInContext(th+";this.n=themeNow",c);
+  eq(c.n({theme:'dark'}),'dark');eq(['light','sleep'].includes(c.n({theme:'time'})),true)});
+ t('v2.4: у вызовов sv2 в 12-settings нет inline-алертов',()=>{eq(/\b(alert|confirm|prompt)\(/.test(R('js/12-settings.js').replace(/ui\.(confirm|prompt)\(/g,'')),false)});
 }
 console.log(`Тесты: ${ok} ок, ${bad} ошибок`);process.exit(bad?1:0);
