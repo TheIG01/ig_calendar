@@ -75,5 +75,11 @@ if(lk&&lk.linkInfo){
  t('F05: javascript: и пустая строка отклоняются',()=>{eq(lk.linkInfo('javascript:alert(1)'),null);eq(lk.linkInfo(''),null)});
  t('F05: ссылки из описания без дублей и знаков в конце',()=>{const L=lk.linkUrls({url:'https://zoom.us/j/1',note:'Файл https://figma.com/file/x и https://zoom.us/j/1.'});eq(L.map(x=>x.name),['Zoom','Figma'])});
 }
-console.log(`Тесты: ${ok} ок, ${bad} ошибок`);process.exit(bad?1:0);
+// v2.10: матрёшка целей (js/28-goals.js)
+{const G=R('js/28-goals.js'),EG=C.split('\n').find(l=>l.startsWith('const egs='));const mk=S=>{const c={S,today:()=>'2026-11-24',dd:null,P:s=>new Date(s+'T00:00:00Z')};vm.createContext(c);vm.runInContext(EG+'\n'+G+'\nthis.egs=egs;this.unG=unG;this.gjour=gjour;',c);return c};
+ t('v2.10: egs собирает основную и доп. цели',()=>{const c=mk({ev:[],goals:[]});eq(c.egs({goal:'a',gx:['b']}),['a','b']);eq(c.egs({}),[])});
+ t('v2.10: unG снимает цель и переносит основную на следующую',()=>{const c=mk({ev:[],goals:[]});const e={goal:'a',gx:['b','c']};c.unG(e,'a');eq([e.goal,e.gx],['b',['c']]);c.unG(e,'c');eq([e.goal,e.gx],['b',undefined])});
+ t('v2.10: журнал ветки собирает записи и выполненные этапы всех уровней',()=>{const S={ev:[{goal:'g1',done:{'2026-11-20':1},title:'Пост'}],goals:[{id:'g1',t:'Цель',log:[{d:'2026-11-22',v:5,n:'x'}]},{id:'k1',t:'Подцель',par:'g1',log:[{d:'2026-11-23',v:2}]},{id:'k2',t:'Будущее',par:'k1',log:[{d:'2026-12-01',v:9}]}]};const c=mk(S);const J=c.gjour(S.goals[0]);eq(J.map(x=>x.d),['2026-11-23','2026-11-22','2026-11-20'])});
+}
 t('v2.5.1: 11-ui.js подключён раньше 00-core.js (иначе пустой сайт)',()=>{const h=R('index.html');eq(h.indexOf('js/11-ui.js')>0&&h.indexOf('js/11-ui.js')<h.indexOf('js/00-core.js'),true)});
+console.log(`Тесты: ${ok} ок, ${bad} ошибок`);process.exit(bad?1:0);
