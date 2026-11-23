@@ -22,5 +22,8 @@ t('прогресс проекта = среднее верхних целей',(
  assert.equal(M.projGoalPct(P),60);
 });
 t('нет целей → null',()=>{S.goals=[];assert.equal(M.projGoalPct(P),null)});
+t('полоска: часы и цели — среднее',()=>{S.goals=[{id:'a',proj:'p1',pv:50}];assert.equal(M.projMixPct(P,10,60*15),75)});
+t('полоска: только часы',()=>{S.goals=[];assert.equal(M.projMixPct(P,10,300),50)});
+t('полоска: ни плана, ни целей → null',()=>{S.goals=[];assert.equal(M.projMixPct(P,0,300),null)});
 console.log(`Цели проекта: ${ok} ок, ${bad} ошибок`);
 process.exitCode=bad?1:0;

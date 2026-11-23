@@ -13,7 +13,7 @@ XT.show(p?'Проект: '+p.t:'Новый проект',`<input id="zj1" class=
 PE.col=c=>{PE.c=c;const t=V('zj1'),a=V('zj2'),b=V('zj3'),s=V('zj4');PE.open(PE.id);$('zj1').value=t;$('zj2').value=a;$('zj3').value=b;$('zj4').value=s;PE.c=c;[...document.querySelectorAll('#zjc button')].forEach(x=>{x.style.borderColor=x.style.background==c?'var(--tx)':'transparent'})};
 PE.save=()=>{const t=V('zj1').trim().replace(/['"]/g,'');if(!t){$('zj1').focus();return}const o={t,c:PE.c,plan:+V('zj2')||0,rate:+V('zj3')||0,svc:V('zj4').split(',').map(x=>x.trim().replace(/['"]/g,'')).filter(Boolean)};S.proj=S.proj||[];if(PE.id){Object.assign(PJ(PE.id),o)}else S.proj.push({id:uid(),...o});save();render();XT.close();toast('Проект сохранён',1)};
 PE.arch=()=>{const p=PJ(PE.id);p.arch=p.arch?0:1;save();render();XT.close()};
-PE.del=ok=>{const p=PJ(PE.id);if(ok!==1)return void ask('Удалить проект «'+p.t+'»? Этапы останутся, но без проекта.','Удалить').then(y=>y&&PE.del(1));snap();S.proj=S.proj.filter(x=>x.id!=PE.id);S.ev.forEach(e=>{if(e.proj==PE.id){e.proj='';e.svc=''}});if(S.pf==PE.id)S.pf='';save();render();XT.close();toast('Проект удалён')};
+PE.del=ok=>{const p=PJ(PE.id);if(ok!==1)return void ask('Удалить проект «'+p.t+'»? Этапы останутся, но без проекта.','Удалить').then(y=>y&&PE.del(1));snap();S.proj=S.proj.filter(x=>x.id!=PE.id);S.ev.forEach(e=>{if(e.proj==PE.id){e.proj='';e.svc=''}});(S.goals||[]).forEach(g=>{if(g.proj==PE.id)delete g.proj});if(S.pf==PE.id)S.pf='';save();render();XT.close();toast('Проект удалён')};
 window.padd=function(){PE.open('')};window.pedit=function(id){PE.open(id)};
 /* ===== Статистика фокуса ===== */
 const XD=window.XD=window.XD||{};

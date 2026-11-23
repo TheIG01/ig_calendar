@@ -561,6 +561,7 @@
 - projTop — js/29-proj-goals.js:13
 - projGoalPct — js/29-proj-goals.js:16
 - pgNode — js/29-proj-goals.js:19
+- projMixPct — js/29-proj-goals.js:23
 
 ## worker.js
 - J — worker.js:5
