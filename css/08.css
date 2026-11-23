@@ -97,3 +97,11 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .row .ci{min-width:36px;min-height:36px;border:1px solid var(--bd);background:var(--card);border-radius:10px;color:var(--mut);cursor:pointer;font-size:.95em;padding:0 6px}
 .row .ci:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
 @media (pointer:coarse),(max-width:520px){.row .ci{min-width:44px;min-height:44px}}
+/* v2.7.9 (F05): превью ссылок в этапе */
+.lnkb{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.lnkc{display:flex;align-items:center;gap:10px;min-height:44px;padding:6px 10px;border-radius:10px;background:var(--card,#fcfdff);border:1px solid rgba(0,0,0,.08);text-decoration:none;color:inherit;max-width:100%}
+.lnkc i{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;color:#fff;font-style:normal;font-weight:700;flex:none}
+.lnkc span{display:flex;flex-direction:column;min-width:0}
+.lnkc b{font-weight:600;font-size:.92em}
+.lnkc small{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lnkc:focus-visible{outline:2px solid var(--ac);outline-offset:2px}

@@ -66,5 +66,14 @@ if(M){const ev=(id,m,x)=>({id,_m:m,t:x||id});
 }
 t('v2.7.4: правка повтора спрашивает область, без вызова confirm/alert',()=>{eq(/\balert\(|\bconfirm\(|\bprompt\(/.test(R('js/16-series.js')),false)});
 t('v2.7.4: 16-series.js подключён в index.html и sw.js',()=>{eq(R('index.html').includes('js/16-series.js')&&R('sw.js').includes('js/16-series.js'),true)});
+// F05: превью ссылок (чистые функции)
+const LS=R('js/17-links.js');let lk;
+t('F05: загрузка linkInfo/linkUrls',()=>{lk={URL};vm.createContext(lk);vm.runInContext(cut(LS,'const LSRV=')+'\n'+cut(LS,'function linkInfo(')+'\n'+cut(LS,'function linkUrls(')+'\nthis.linkInfo=linkInfo;this.linkUrls=linkUrls;',lk)});
+if(lk&&lk.linkInfo){
+ t('F05: распознаёт Google Docs по домену',()=>{const i=lk.linkInfo('docs.google.com/document/d/1');eq(i.name,'Google Docs');eq(i.host,'docs.google.com')});
+ t('F05: неизвестный домен — сам домен',()=>{eq(lk.linkInfo('https://www.example.org/x').name,'example.org')});
+ t('F05: javascript: и пустая строка отклоняются',()=>{eq(lk.linkInfo('javascript:alert(1)'),null);eq(lk.linkInfo(''),null)});
+ t('F05: ссылки из описания без дублей и знаков в конце',()=>{const L=lk.linkUrls({url:'https://zoom.us/j/1',note:'Файл https://figma.com/file/x и https://zoom.us/j/1.'});eq(L.map(x=>x.name),['Zoom','Figma'])});
+}
 console.log(`Тесты: ${ok} ок, ${bad} ошибок`);process.exit(bad?1:0);
 t('v2.5.1: 11-ui.js подключён раньше 00-core.js (иначе пустой сайт)',()=>{const h=R('index.html');eq(h.indexOf('js/11-ui.js')>0&&h.indexOf('js/11-ui.js')<h.indexOf('js/00-core.js'),true)});

@@ -420,6 +420,12 @@
 - saveDd — js/16-series.js:36
 - askScope — js/16-series.js:38
 
+## js/17-links.js
+- linkInfo — js/17-links.js:3
+- linkUrls — js/17-links.js:4
+- lnkBlock — js/17-links.js:5
+- lnkApply — js/17-links.js:6
+
 ## worker.js
 - J — worker.js:5
 - pad — worker.js:6
