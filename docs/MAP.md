@@ -262,6 +262,9 @@
 - dmove — js/03-hub.js:70
 - dend — js/03-hub.js:74
 - mig2 — js/03-hub.js:90
+- eisQ — js/03-hub.js:95
+- eisCols — js/03-hub.js:96
+- eisDrop — js/03-hub.js:102
 
 ## js/04-merge.js
 - sySj — js/04-merge.js:2
@@ -425,6 +428,18 @@
 - linkUrls — js/17-links.js:4
 - lnkBlock — js/17-links.js:5
 - lnkApply — js/17-links.js:6
+
+## js/18-palette.js
+- $p — js/18-palette.js:4
+- norm — js/18-palette.js:5
+- GO — js/18-palette.js:6
+- build — js/18-palette.js:32
+- gather — js/18-palette.js:44
+- draw — js/18-palette.js:56
+- onKey — js/18-palette.js:62
+- run — js/18-palette.js:71
+- open — js/18-palette.js:72
+- close — js/18-palette.js:77
 
 ## worker.js
 - J — worker.js:5

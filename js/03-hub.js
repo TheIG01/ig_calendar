@@ -37,9 +37,9 @@ const srt=(a,b)=>(a.e.o??1e9)-(b.e.o??1e9)||a.d.localeCompare(b.d)||(b.e.pri||0)
 function bt(){const t=today(),L=[];S.ev.forEach(e=>{if(e.kind!='task')return;const r=e.rep&&e.rep.t!='none';if(!r){if(!e.done?.[e.date]&&e.date>=add(t,-60))L.push({e,d:e.date})}else for(let i=0;i<=7;i++){const d=add(t,i);if(occ(e,d)&&!e.done?.[d])L.push({e,d,rec:1})}});return L}
 const bcard=(x,M)=>{const e=x.e,p=PJ(e.proj),m=[];if(M=='due'){if(p)m.push(`<i style="color:${p.c};font-style:normal">●</i> ${esc(p.t)}`)}else m.push(dlb(x.d));if(!e.ad)m.push(e.st);if(e.pri)m.push(e.pri>1?'‼':'!');return `<div class="xcard p${e.pri||0}" data-k="t" data-id="${e.id}" style="--c:${col(e)}" onclick="XB.open('${e.id}')"><button class="xck sm" onclick="XP.ck('${e.id}','${x.d}',event)"></button><div class="xat"><b>${esc(e.title||'Без названия')}</b>${m.length?`<span>${m.join(' · ')}</span>`:''}</div></div>`};
 function vB(){const t=today(),M=st.bm,L=bt().sort(srt),inb=S.inbox||[];let C;
-if(M=='due')C=[{k:'over',n:'Просрочено',f:x=>x.d<t},{k:'0',n:'Сегодня',f:x=>x.d==t},{k:'1',n:'Завтра',f:x=>x.d==add(t,1)},{k:'3',n:'На неделе',f:x=>x.d>add(t,1)&&x.d<=add(t,7)},{k:'14',n:'Позже',f:x=>x.d>add(t,7)},{k:'in',n:'Входящие',inb:1}];
+if(M=='eis')C=eisCols(t);else if(M=='due')C=[{k:'over',n:'Просрочено',f:x=>x.d<t},{k:'0',n:'Сегодня',f:x=>x.d==t},{k:'1',n:'Завтра',f:x=>x.d==add(t,1)},{k:'3',n:'На неделе',f:x=>x.d>add(t,1)&&x.d<=add(t,7)},{k:'14',n:'Позже',f:x=>x.d>add(t,7)},{k:'in',n:'Входящие',inb:1}];
 else C=[{k:'',n:'Без проекта',f:x=>!PJ(x.e.proj)},...(S.proj||[]).filter(p=>!p.arch).map(p=>({k:p.id,n:p.t,f:x=>x.e.proj==p.id,c:p.c}))];
-return `<div class="xc2"><button class="${M=='due'?'on':''}" onclick="XP.bm('due')">По срокам</button><button class="${M=='proj'?'on':''}" onclick="XP.bm('proj')">По проектам</button></div><div class="xn" style="color:var(--mut);font-size:.8em">Перетаскивайте карточки между колонками. На телефоне: нажмите и держите карточку.</div><div class="xbd">`+C.map(c=>{const cs=c.inb?inb.map(i=>`<div class="xcard" data-k="i" data-id="${i.id}" style="--c:var(--mut)"><div class="xat"><b>${esc(i.t)}</b></div></div>`):L.filter(c.f).map(x=>bcard(x,M));return `<div class="xcol" data-col="${c.k}"><h6 ${c.c?`style="border-top:3px solid ${c.c}"`:''}>${esc(c.n)}<span>${cs.length}</span></h6><div class="xcards">${cs.join('')}</div><input class="xqa" placeholder="+ Добавить карточку" onkeydown="if(event.key=='Enter')XB.qa('${c.k}',this)"></div>`}).join('')+`</div>`}
+return `<div class="xc2"><button class="${M=='due'?'on':''}" onclick="XP.bm('due')">По срокам</button><button class="${M=='proj'?'on':''}" onclick="XP.bm('proj')">По проектам</button><button class=\"${M=='eis'?'on':''}\" onclick=\"XP.bm('eis')\">Матрица</button></div><div class="xn" style="color:var(--mut);font-size:.8em">Перетаскивайте карточки между колонками. На телефоне: нажмите и держите карточку.</div><div class="xbd">`+C.map(c=>{const cs=c.inb?inb.map(i=>`<div class="xcard" data-k="i" data-id="${i.id}" style="--c:var(--mut)"><div class="xat"><b>${esc(i.t)}</b></div></div>`):L.filter(c.f).map(x=>bcard(x,M));return `<div class="xcol" data-col="${c.k}"><h6 ${c.c?`style="border-top:3px solid ${c.c}"`:''}>${esc(c.n)}<span>${cs.length}</span></h6><div class="xcards">${cs.join('')}</div><input class="xqa" placeholder="+ Добавить карточку" onkeydown="if(event.key=='Enter')XB.qa('${c.k}',this)"></div>`}).join('')+`</div>`}
 const fs0=(d,len)=>{const t=today(),B=evs(d).filter(e=>!e.ad&&e.kind!='habit'&&e.st!=e.en).map(e=>[tm(e.st),tm(e.en)<=tm(e.st)?1440:tm(e.en)]).sort((a,b)=>a[0]-b[0]);let a=480;if(d==t){const n=tzNow();a=Math.max(a,Math.ceil((n.getUTCHours()*60+n.getUTCMinutes())/15)*15)}for(const[x,y]of B){if(x-a>=len)break;a=Math.max(a,y)}return a+len<=1320?a:-1};
 function hp(){const b=q('.xpb'),y=b?b.scrollTop:0,iv=q('#xqi')?.value,t=today(),n=tzNow().getUTCHours(),gr=n<5?'Доброй ночи':n<12?'Доброе утро':n<18?'Добрый день':'Добрый вечер';
 q('.xpc').innerHTML=`<div class="xph"><div><small>${new Date(t+'T00:00:00Z').toLocaleDateString('ru',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'})}</small><b>${gr}</b></div><button onclick="XP.close()">×</button></div><div class="xpt">${[['today','Сегодня'],['tasks','Задачи'],['board','Доска'],['habits','Привычки'],['goals','Цели'],['proj','Проекты']].map(([k,v])=>`<button class="${st.tab==k?'on':''}" onclick="XP.tab('${k}')">${v}</button>`).join('')}</div><div class="xpb">${({today:vT,tasks:vK,board:vB,habits:vH,goals:vG,proj:vP})[st.tab]()}</div><div class="xpf"><button onclick="XZ.open()">✨ Функции</button><button onclick="XT.open()">⚡ Инструменты</button></div>`;
@@ -76,7 +76,7 @@ if(d.col&&d.ph.parentNode){const box=d.col.querySelector('.xcards'),ids=[...box.
 document.addEventListener('mousedown',dstart);document.addEventListener('touchstart',dstart,{passive:true});document.addEventListener('mousemove',dmove);document.addEventListener('touchmove',dmove,{passive:false});document.addEventListener('mouseup',dend);document.addEventListener('touchend',dend);document.addEventListener('touchcancel',dend);
 window.XB={just:0,open(id){if(Date.now()-XB.just<400)return;XP.ed(id)},
 drop(d,col,ids){const t=today(),M=st.bm,e=d.k=='t'?S.ev.find(v=>v.id==d.id):null,ib=d.k=='i'?(S.inbox||[]).find(v=>v.id==d.id):null,rec=e&&e.rep&&e.rep.t!='none';if(!e&&!ib)return render();snap();
-if(M=='proj'){if(e)e.proj=col;else{S.inbox=S.inbox.filter(v=>v!==ib);const n=mkE(ib.t,t,'task',{proj:col});n.id=ib.id;S.ev.push(n)}}
+if(M=='eis'){eisDrop(e,ib,col,t)}else if(M=='proj'){if(e)e.proj=col;else{S.inbox=S.inbox.filter(v=>v!==ib);const n=mkE(ib.t,t,'task',{proj:col});n.id=ib.id;S.ev.push(n)}}
 else{if(col=='over'){toast('Выберите срок: сегодня, завтра…',1);return render()}
 if(col=='in'){if(e){if(rec){toast('Повторяющиеся задачи переносятся в календаре',1);return render()}S.ev=S.ev.filter(v=>v!==e);(S.inbox=S.inbox||[]).push({id:e.id,t:e.title})}}
 else{const dt=add(t,{'0':0,'1':1,'3':3,'14':14}[col]);if(e){if(rec){toast('Повторяющиеся задачи переносятся в календаре',1);return render()}e.date=dt}else{S.inbox=S.inbox.filter(v=>v!==ib);const n=mkE(ib.t,dt,'task');n.id=ib.id;S.ev.push(n)}}}
@@ -90,3 +90,20 @@ const fb=q('#xfab');if(fb){fb.textContent='🎯';fb.onclick=()=>XP.open()}
 function mig2(){if(S.mig2)return;let ch=0;const t=today();(S.tasks||[]).forEach(x=>{const d=x.due||t,e=mkE(x.t,d,'task',{pri:x.p>=2?1:0});if(x.done)e.done={[d]:1};S.ev.push(e);ch=1});(S.habits||[]).forEach(h=>{const l=(h.log||[]).slice().sort(),e=mkE(h.t,l[0]||t,'habit',{rep:{t:'daily',n:1}});l.forEach(x=>e.done[x]=1);S.ev.push(e);ch=1});(S.goals||[]).forEach(g=>{if(g.m==null&&g.p!=null){g.m='log';g.tg=100;g.log=g.p?[{d:t,v:g.p,n:'перенос'}]:[];ch=1}});if(S.tasks?.length)S.tasks=[];if(S.habits?.length)S.habits=[];S.mig2=1;if(ch){save();render()}}
 mig2();
 })();
+
+// N26: матрица Эйзенхауэра на доске. Важно = pri 1; срочно = срок сегодня/завтра или просрочено.
+function eisQ(x,t){const imp=x.e.pri==1,urg=x.d<=add(t,1);return imp?(urg?'eis1':'eis2'):(urg?'eis3':'eis4')}
+function eisCols(t){return [
+  {k:'eis1',n:'Важно и срочно',c:'#e5484d',f:x=>eisQ(x,t)=='eis1'},
+  {k:'eis2',n:'Важно, не срочно',c:'#2f6bff',f:x=>eisQ(x,t)=='eis2'},
+  {k:'eis3',n:'Срочно, не важно',c:'#f59e0b',f:x=>eisQ(x,t)=='eis3'},
+  {k:'eis4',n:'Не важно, не срочно',c:'#8a94a6',f:x=>eisQ(x,t)=='eis4'}]}
+// Перенос карточки: меняем важность; срочность — срок (сегодня или через неделю). Повторы — только важность.
+function eisDrop(e,ib,col,t){
+  const imp=col=='eis1'||col=='eis2',urg=col=='eis1'||col=='eis3';
+  if(!e){S.inbox=S.inbox.filter(v=>v!==ib);const n=mkE(ib.t,urg?t:add(t,7),'task',{pri:imp?1:0});n.id=ib.id;S.ev.push(n);return}
+  e.pri=imp?1:0;
+  if(e.rep&&e.rep.t!='none')return;
+  if(urg&&e.date>add(t,1))e.date=t;
+  if(!urg&&e.date<=add(t,1))e.date=add(t,7);
+}
