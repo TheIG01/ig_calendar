@@ -23,7 +23,7 @@ function gjHTML(g){const J=gjour(g,12),u=g.u?' '+esc(g.u):'';
 
 // v2.10.1 «Ключевые результаты» (G12): результаты внутри цели, недельный чекин, светофор.
 // Поля: g.kr [{id,t,tg,cv,u}] — результаты; g.ck [{d,n,c,kr}] — чекины; g.st — дата старта (для светофора).
-const krOn=()=>!(S.set&&S.set.kr===false);
+const krOn=()=>!(S.set&&S.set.kr===0);
 function krK(k){return k.tg>0?Math.min(100,k.cv/k.tg*100):(k.cv>0?100:0)}
 function krPct(g){const L=g.kr||[];return L.length?L.reduce((s,k)=>s+krK(k),0)/L.length:0}
 // Светофор: сравнивает прогресс с тем, сколько времени уже прошло от старта до срока.
