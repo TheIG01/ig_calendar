@@ -67,3 +67,6 @@ if(typeof document!=='undefined'){
 document.addEventListener('click',e=>{const b=e.target.closest('[data-pm]');if(!b||!gg)return;gg.pm=b.dataset.pm;gre()});
 document.addEventListener('input',e=>{if(!gg||!e.target.matches('[data-pv]'))return;gg.pv=Math.max(0,Math.min(100,+e.target.value||0))});
 }
+
+// v2.11.3: заметки цели (поле nt), сохраняются вместе с целью при commit()
+if(typeof document!=='undefined')document.addEventListener('input',e=>{const i=e.target.closest&&e.target.closest('#db [data-gnt]');if(!i||!gg)return;gg.nt=(i.value||'').slice(0,3000)});
