@@ -266,9 +266,9 @@
 - dmove — js/03-hub.js:77
 - dend — js/03-hub.js:81
 - mig2 — js/03-hub.js:97
-- eisQ — js/03-hub.js:102
-- eisCols — js/03-hub.js:103
-- eisDrop — js/03-hub.js:109
+- eisQ — js/03-hub.js:103
+- eisCols — js/03-hub.js:104
+- eisDrop — js/03-hub.js:110
 
 ## js/04-merge.js
 - sySj — js/04-merge.js:2
@@ -453,6 +453,19 @@
 - triBanner — js/19-triage.js:8
 - placeBanner — js/19-triage.js:14
 - ⚠ render — js/19-triage.js:20
+
+## js/20-batch.js
+- on — js/20-batch.js:7
+- kOf — js/20-batch.js:8
+- isRep — js/20-batch.js:9
+- openL — js/20-batch.js:10
+- html — js/20-batch.js:12
+- show — js/20-batch.js:25
+- bxOpen — js/20-batch.js:26
+- apply — js/20-batch.js:29
+- remove — js/20-batch.js:37
+- MOVE — js/20-batch.js:48
+- ⚠ vKWrap — js/20-batch.js:81
 
 ## worker.js
 - J — worker.js:5
