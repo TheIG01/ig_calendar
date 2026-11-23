@@ -483,10 +483,17 @@
 - $ — js/22-projects.js:6
 - finOn — js/22-projects.js:7
 - mny — js/22-projects.js:8
-- parseSvc — js/22-projects.js:12
-- weekSvc — js/22-projects.js:15
-- ⚠ vPH — js/22-projects.js:41
-- ⚠ vP — js/22-projects.js:51
+- subIds — js/22-projects.js:10
+- parOpts — js/22-projects.js:11
+- safePar — js/22-projects.js:12
+- parseSvc — js/22-projects.js:16
+- weekSvc — js/22-projects.js:19
+- ⚠ vPH — js/22-projects.js:45
+
+## js/23-clients.js
+- plural — js/23-clients.js:6
+- ⚠ projList — js/23-clients.js:9
+- ⚠ clientsHTML — js/23-clients.js:21
 
 ## worker.js
 - J — worker.js:5

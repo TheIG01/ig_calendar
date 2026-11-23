@@ -6,6 +6,10 @@
 const $=id=>document.getElementById(id),V=id=>($(id)||{}).value||'';
 const finOn=()=>S.set.fin==1,normOn=()=>S.set.svn!==0;
 const mny=v=>Math.round(v).toLocaleString('ru')+' ₽';
+/* G14: папки. p.par — id родительского проекта (пусто = верхний уровень) */
+function subIds(id){const out=[id];for(let i=0;i<out.length;i++)(S.proj||[]).forEach(p=>{if(p.par==out[i]&&!out.includes(p.id))out.push(p.id)});return out}
+function parOpts(p){const bad=p?subIds(p.id):[];return '<option value="">Без папки (верхний уровень)</option>'+(S.proj||[]).filter(x=>!bad.includes(x.id)&&!x.arch).map(x=>`<option value="${x.id}"${p&&p.par==x.id?' selected':''}>${esc(x.t)}</option>`).join('')}
+function safePar(self,par){if(!par||!PJ(par))return '';return (self&&subIds(self).includes(par))?'':par}
 const PCOL=['#2f6bff','#7c5cff','#0ea5a4','#16a34a','#f59e0b','#db2777','#e5484d','#64748b'];
 
 /* «SEO 5, Сайты» → услуги и нормы (число в конце — норма ч/нед) */
@@ -20,7 +24,7 @@ PE.open=id=>{const p=id?PJ(id):null;if(id&&!p)return;PE.id=id||'';PE.c=p?p.c:PCO
  const col=c=>`<button type="button" data-pe="col" data-c="${c}" aria-label="Цвет ${c}" class="pe-col" style="background:${c};border:3px solid ${c==PE.c?'var(--tx)':'transparent'}"></button>`;
  XT.show(p?'Проект: '+p.t:'Новый проект',`<input id="zj1" class="xin" placeholder="Название (например, ДомНОВ)" value="${esc(p?p.t:'')}" aria-label="Название проекта">`+
  `<div class="xn">Цвет</div><div class="xc2" id="zjc">${PCOL.map(col).join('')}</div>`+
- `<div class="xn">Клиент</div><input id="zcl" class="xin" placeholder="Например, ООО «Ромашка»" value="${esc(p?.cl||'')}">`+
+ `<div class="xn">Клиент</div><input id="zcl" class="xin" placeholder="Например, ООО «Ромашка»" value="${esc(p?.cl||'')}">`+`<div class="xn">Папка (внутри какого проекта)</div><select id="zpar" class="xin">${parOpts(p)}</select>`+
  `<div class="xnr"><div style="flex:1"><div class="xn">План часов</div><input id="zj2" class="xin" type="number" min="0" step="1" value="${p&&p.plan?p.plan:''}" placeholder="0 = без плана"></div><div style="flex:1"><div class="xn">Ставка, ₽/час</div><input id="zj3" class="xin" type="number" min="0" step="50" value="${p&&p.rate?p.rate:''}" placeholder="для счёта"></div></div>`+
  `<div class="xnr"><div style="flex:1"><div class="xn">Бюджет, ₽</div><input id="zbud" class="xin" type="number" min="0" step="1000" value="${p&&p.bud?p.bud:''}" placeholder="необязательно"></div><div style="flex:1"><div class="xn">Статус</div><label class="xtg" style="display:flex;align-items:center;gap:8px;min-height:44px"><input type="checkbox" id="zps"${p&&p.ps?' checked':''}> На паузе</label></div></div>`+
  `<div class="xn">Услуги и нормы, ч в неделю (через запятую, например: SEO 5, Сайты 10)</div><input id="zj4" class="xin" value="${esc(svc)}" placeholder="SEO 5, Сайты 10, Реклама">`+
@@ -30,7 +34,7 @@ PE.col=c=>{PE.c=c;document.querySelectorAll('#zjc [data-c]').forEach(x=>{x.style
 
 PE.save=()=>{const t=V('zj1').trim().replace(/['"]/g,'');if(!t){$('zj1').focus();return}
  const{svc,norm}=parseSvc(V('zj4'));
- const o={t,c:PE.c,cl:V('zcl').trim().replace(/['"]/g,''),plan:+V('zj2')||0,rate:+V('zj3')||0,bud:+V('zbud')||0,ps:$('zps')&&$('zps').checked?1:0,svc,norm};
+ const o={t,c:PE.c,cl:V('zcl').trim().replace(/['"]/g,''),par:safePar(PE.id,V('zpar')),plan:+V('zj2')||0,rate:+V('zj3')||0,bud:+V('zbud')||0,ps:$('zps')&&$('zps').checked?1:0,svc,norm};
  snap();S.proj=S.proj||[];if(PE.id)Object.assign(PJ(PE.id),o);else S.proj.push({id:uid(),...o});
  save();render();XT.close();toast('Проект сохранён',1)};
 
@@ -47,8 +51,7 @@ window.vPH=function(){const p=PJ(S.pf);if(!p)return'';const[w,l]=pst(p),pl=(+p.p
  return `<div class="ph"><div><b>${esc(p.t)}</b>${head?` <span>${head}</span>`:''}<span>Отработано ${hr(w)}${pl?' · по плану осталось '+hr(Math.max(0,pl-w))+' из '+hr(pl):' · запланировано ещё '+hr(l)}</span></div>${pl?`<div class="pb"><i style="width:${Math.min(100,w/pl*100)}%"></i></div>`:''}${money}${nb}<div class="pills">${(p.svc||[]).map(v=>`<button class="pl ${S.sf==v?'on':''}" onclick="sfs('${v}')">${esc(v)} · ${hr(sv[v]||0)}</button>`).join('')}<button class="lnk" onclick="pedit('${p.id}')">Настроить проект</button><button class="lnk" onclick="pfs('${p.id}')">Показать всё</button></div></div>`};
 
 /* Итог архива: сверху списка архива — сумма часов по завершённым проектам (G18, часть 1) */
-const vP0=window.vP;
-window.vP=function(){const h=vP0();if(!HUB.st.arch)return h;const A=(S.proj||[]).filter(p=>p.arch);if(!A.length)return h;
+window.vPWrap=vP0=>function(){const h=vP0();if(!HUB.st.arch)return h;const A=(S.proj||[]).filter(p=>p.arch);if(!A.length)return h;
  let tot=0,rev=0;A.forEach(p=>{const[w]=pst(p);tot+=w;rev+=w/60*(p.rate||0)});
  return `<div class="xk" style="--c:var(--ac)"><div class="xtt"><b>Итог архива</b><span style="color:var(--mut)">${A.length} проектов</span></div><div class="xm2"><span>часов <b>${hr(tot)}</b></span>${finOn()&&rev?`<span>выручка <b>${mny(rev)}</b></span>`:''}</div></div>`+h};
 })();
