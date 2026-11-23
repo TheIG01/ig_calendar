@@ -479,6 +479,15 @@
 - tvTimeline — js/21-tasks.js:24
 - ⚠ vKWrap — js/21-tasks.js:27
 
+## js/22-projects.js
+- $ — js/22-projects.js:6
+- finOn — js/22-projects.js:7
+- mny — js/22-projects.js:8
+- parseSvc — js/22-projects.js:12
+- weekSvc — js/22-projects.js:15
+- ⚠ vPH — js/22-projects.js:41
+- ⚠ vP — js/22-projects.js:51
+
 ## worker.js
 - J — worker.js:5
 - pad — worker.js:6
