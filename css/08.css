@@ -105,3 +105,12 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .lnkc b{font-weight:600;font-size:.92em}
 .lnkc small{color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lnkc:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+
+/* v2.7.11 командная палитра (N32): список результатов */
+.pal-l{max-height:min(52vh,420px);overflow:auto;padding:4px 2px 6px}
+.pal-i{display:flex;justify-content:space-between;align-items:center;gap:var(--s3);width:100%;min-height:44px;padding:var(--s2) var(--s3);border:0;background:none;color:var(--tx);font:inherit;text-align:left;border-radius:var(--r-sm);cursor:pointer}
+.pal-i.on,.pal-i:hover{background:color-mix(in srgb,var(--ac) 12%,transparent)}
+.pal-i:focus-visible{outline:none;box-shadow:var(--ring)}
+.pal-i span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pal-i small{color:var(--mut);font-size:.85em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:45%}
+.pal-e{padding:var(--s4);color:var(--mut);text-align:center}
