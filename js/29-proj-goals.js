@@ -16,8 +16,15 @@ function projTop(p){return S.goals.filter(g=>(!g.par||!S.goals.some(x=>x.id==g.p
 function projGoalPct(p){const L=projTop(p);if(!L.length)return null;return L.reduce((a,g)=>a+gpc(g),0)/L.length}
 
 // Дерево подцелей для показа (глубина ограничена, чтобы карточка не разъезжалась).
-function pgNode(g,d){const kids=S.goals.filter(x=>x.par==g.id),pc=Math.round(gpc(g));
- return `<div class="pgn" style="margin-left:${d*14}px"><div class="pgr"><button class="pgt" data-pgo="${g.id}">${esc(g.t)}</button><span>${pc}%</span></div><div class="pb"><i style="width:${pc}%"></i></div>${d<6?kids.map(k=>pgNode(k,d+1)).join(''):''}</div>`}
+// Часы цели: её подцели и этапы с goal или доп. целью из её поддерева. [сделано, осталось] в минутах.
+function goalHrs0(g){const ids=[g.id],seen=new Set([g.id]);for(let i=0;i<ids.length;i++)S.goals.forEach(x=>{if(x.par==ids[i]&&!seen.has(x.id)){seen.add(x.id);ids.push(x.id)}});
+ const t=today();let w=0,l=0;
+ for(let i=-400;i<=120;i++){const d=add(t,i);S.ev.forEach(e=>{if(!ids.some(id=>id==e.goal||(e.gx||[]).includes(id)))return;const o=occ(e,d);if(!o)return;const m=dur(o[0],o[1]);(d<t||e.done?.[d])?w+=m:l+=m})}
+ return [w,l]}
+function goalHrs(g){return memo('gh'+g.id+today(),()=>goalHrs0(g))}
+function pgNode(g,d){const kids=S.goals.filter(x=>x.par==g.id),pc=Math.round(gpc(g)),[hw,hl]=goalHrs(g);
+ const hrs=hw+hl>0?`<small>⏱ ${hr(hw)}${hl?` · ост. ${hr(hl)}`:''}</small>`:'';
+ return `<div class="pgn" style="margin-left:${d*14}px"><div class="pgr"><button class="pgt" data-pgo="${g.id}">${esc(g.t)}</button>${hrs}<span>${pc}%</span></div><div class="pb"><i style="width:${pc}%"></i></div>${d<6?kids.map(k=>pgNode(k,d+1)).join(''):''}</div>`}
 
 // Полоска проекта: часы (если есть план) и цели (если есть) — среднее; null — полоски нет.
 function projMixPct(p,pl,w){const h=pl?Math.min(100,w/60/pl*100):null,g=projGoalPct(p);if(h==null&&g==null)return null;if(h==null)return g;if(g==null)return h;return (h+g)/2}
