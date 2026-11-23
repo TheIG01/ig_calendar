@@ -196,6 +196,16 @@
 - imp — js/00-core.js:356
 - fx — js/00-core.js:357
 
+## js/00-views.js
+- ND — js/00-views.js:4
+- workStart — js/00-views.js:5
+- stepDays — js/00-views.js:6
+- agTitle — js/00-views.js:7
+- vxSel — js/00-views.js:8
+- vAgenda — js/00-views.js:14
+- setHH — js/00-views.js:19
+- dayDrawer — js/00-views.js:20
+
 ## js/01-ics.js
 - Q — js/01-ics.js:2
 - dl — js/01-ics.js:3
