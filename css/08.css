@@ -52,3 +52,12 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .ddh{display:flex;align-items:center;gap:6px;margin-bottom:6px}.ddh b{flex:1;text-transform:capitalize}
 .ddh button{min-width:44px;min-height:44px;border:0;border-radius:10px;background:var(--bg);color:var(--tx);font-size:1.2em;cursor:pointer}
 .ddm{color:var(--mu,#667);margin:8px 4px}
+
+/* v2.5.2 */
+.ubtn{min-width:36px;padding:0 10px;font-size:17px;line-height:1}.ubtn:disabled{opacity:.35;cursor:default}
+@media(pointer:coarse){.ubtn{min-width:44px;min-height:44px}}
+.ch.mdrag{opacity:.55;box-shadow:var(--sh,0 6px 18px rgba(26,33,51,.18));cursor:grabbing}.mg .ch[data-id]{cursor:grab}
+.mg .c.mdrop{outline:2px solid var(--ac,#2f6bff);outline-offset:-2px;background:color-mix(in srgb,var(--ac,#2f6bff) 8%,transparent)}
+#ctxm{position:fixed;z-index:400;min-width:190px;padding:6px;background:var(--card,#fcfdff);border:1px solid var(--bd,#e3e7ef);border-radius:12px;box-shadow:0 10px 30px rgba(26,33,51,.18)}
+#ctxm[hidden]{display:none}#ctxm button{display:block;width:100%;text-align:left;padding:9px 12px;border:0;background:none;border-radius:8px;font:inherit;color:inherit;cursor:pointer}
+#ctxm button:hover,#ctxm button:focus-visible{background:rgba(47,107,255,.1)}#ctxm button.dng{color:#d33}

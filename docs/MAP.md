@@ -361,6 +361,18 @@
 - dfLabel — js/12-settings.js:77
 - filt — js/12-settings.js:78
 
+## js/13-edit.js
+- Q — js/13-edit.js:3
+- ⚠ undo — js/13-edit.js:7
+- ⚠ redo — js/13-edit.js:8
+- bar — js/13-edit.js:9
+- mkBar — js/13-edit.js:10
+- ⚠ render — js/13-edit.js:12
+- ⚠ mgn — js/13-edit.js:16
+- cellAt — js/13-edit.js:22
+- clr — js/13-edit.js:23
+- hide — js/13-edit.js:32
+
 ## worker.js
 - J — worker.js:5
 - pad — worker.js:6
