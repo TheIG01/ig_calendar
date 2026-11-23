@@ -167,3 +167,8 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .kbcard .kbh:hover{background:var(--bd,#e6e9f0)}
 .kbcard.kbdrag{position:relative;z-index:5;opacity:.92;pointer-events:none;box-shadow:0 12px 28px rgba(20,30,60,.22);cursor:grabbing}
 .kbc.kbhot{outline:2px dashed var(--ac);outline-offset:2px}
+
+/* v2.10.1: светофор целей (G12) */
+.kl{display:flex;align-items:center;gap:8px;margin:6px 0}
+.ld{width:12px;height:12px;border-radius:50%;background:var(--mut);flex:none}
+.kl-g .ld{background:#22a06b}.kl-y .ld{background:#e0a100}.kl-r .ld{background:#e5484d}.kl-d .ld{background:#2f6bff}
