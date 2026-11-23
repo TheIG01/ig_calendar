@@ -482,13 +482,14 @@
 ## js/22-projects.js
 - $ — js/22-projects.js:6
 - finOn — js/22-projects.js:7
-- mny — js/22-projects.js:8
-- subIds — js/22-projects.js:10
-- parOpts — js/22-projects.js:11
-- safePar — js/22-projects.js:12
-- parseSvc — js/22-projects.js:16
-- weekSvc — js/22-projects.js:19
-- ⚠ vPH — js/22-projects.js:45
+- perHrs — js/22-projects.js:9
+- mny — js/22-projects.js:11
+- subIds — js/22-projects.js:13
+- parOpts — js/22-projects.js:14
+- safePar — js/22-projects.js:15
+- parseSvc — js/22-projects.js:19
+- weekSvc — js/22-projects.js:22
+- ⚠ vPH — js/22-projects.js:48
 
 ## js/23-clients.js
 - plural — js/23-clients.js:6
@@ -524,6 +525,13 @@
 - gather — js/26-report.js:21
 - build — js/26-report.js:30
 - paint — js/26-report.js:42
+
+## js/27-archive.js
+- on — js/27-archive.js:5
+- money — js/27-archive.js:6
+- archSum — js/27-archive.js:7
+- finOn2 — js/27-archive.js:17
+- ⚠ projExtra — js/27-archive.js:19
 
 ## worker.js
 - J — worker.js:5
@@ -590,9 +598,9 @@
 - limited — worker.js:227
 - route — worker.js:228
 - runAcc — worker.js:233
-- okL — worker.js:240
-- b64 — worker.js:241
-- hp2 — worker.js:242
-- mkCred — worker.js:243
-- chk — worker.js:244
-- mkT — worker.js:245
+- okL — worker.js:241
+- b64 — worker.js:242
+- hp2 — worker.js:243
+- mkCred — worker.js:244
+- chk — worker.js:245
+- mkT — worker.js:246

@@ -5,6 +5,9 @@
 (()=>{
 const $=id=>document.getElementById(id),V=id=>($(id)||{}).value||'';
 const finOn=()=>S.set.fin==1,normOn=()=>S.set.svn!==0;
+/* G17: часы текущей недели/месяца — отработано и запланировано (как pst, но по периоду) */
+function perHrs(p){const t=today(),y=+t.slice(0,4),mo=+t.slice(5,7);const s=p.pper=='m'?t.slice(0,8)+'01':wk(t),e=p.pper=='m'?new Date(Date.UTC(y,mo,0)).toISOString().slice(0,10):add(s,6);
+ let done=0,tot=0;for(let d=s;d<=e;d=add(d,1))S.ev.forEach(ev=>{if(ev.proj!=p.id)return;const o=occ(ev,d);if(!o)return;const m=dur(o[0],o[1]);tot+=m;if(d<t||ev.done?.[d])done+=m});return{done,tot}}
 const mny=v=>Math.round(v).toLocaleString('ru')+' ₽';
 /* G14: папки. p.par — id родительского проекта (пусто = верхний уровень) */
 function subIds(id){const out=[id];for(let i=0;i<out.length;i++)(S.proj||[]).forEach(p=>{if(p.par==out[i]&&!out.includes(p.id))out.push(p.id)});return out}
@@ -25,7 +28,7 @@ PE.open=id=>{const p=id?PJ(id):null;if(id&&!p)return;PE.id=id||'';PE.c=p?p.c:PCO
  XT.show(p?'Проект: '+p.t:'Новый проект',`<input id="zj1" class="xin" placeholder="Название (например, ДомНОВ)" value="${esc(p?p.t:'')}" aria-label="Название проекта">`+
  `<div class="xn">Цвет</div><div class="xc2" id="zjc">${PCOL.map(col).join('')}</div>`+
  `<div class="xn">Клиент</div><input id="zcl" class="xin" placeholder="Например, ООО «Ромашка»" value="${esc(p?.cl||'')}">`+`<div class="xn">Папка (внутри какого проекта)</div><select id="zpar" class="xin">${parOpts(p)}</select>`+
- `<div class="xnr"><div style="flex:1"><div class="xn">План часов</div><input id="zj2" class="xin" type="number" min="0" step="1" value="${p&&p.plan?p.plan:''}" placeholder="0 = без плана"></div><div style="flex:1"><div class="xn">Ставка, ₽/час</div><input id="zj3" class="xin" type="number" min="0" step="50" value="${p&&p.rate?p.rate:''}" placeholder="для счёта"></div></div>`+
+ `<div class="xnr"><div style="flex:1"><div class="xn">План часов</div><input id="zj2" class="xin" type="number" min="0" step="1" value="${p&&p.plan?p.plan:''}" placeholder="0 = без плана"><select id="zpp" class="xin" style="margin-top:6px" aria-label="План на период"><option value="">на весь проект</option><option value="w"${p&&p.pper=='w'?' selected':''}>в неделю</option><option value="m"${p&&p.pper=='m'?' selected':''}>в месяц</option></select></div><div style="flex:1"><div class="xn">Ставка, ₽/час</div><input id="zj3" class="xin" type="number" min="0" step="50" value="${p&&p.rate?p.rate:''}" placeholder="для счёта"></div></div>`+
  `<div class="xnr"><div style="flex:1"><div class="xn">Бюджет, ₽</div><input id="zbud" class="xin" type="number" min="0" step="1000" value="${p&&p.bud?p.bud:''}" placeholder="необязательно"></div><div style="flex:1"><div class="xn">Статус</div><label class="xtg" style="display:flex;align-items:center;gap:8px;min-height:44px"><input type="checkbox" id="zps"${p&&p.ps?' checked':''}> На паузе</label></div></div>`+
  `<div class="xn">Услуги и нормы, ч в неделю (через запятую, например: SEO 5, Сайты 10)</div><input id="zj4" class="xin" value="${esc(svc)}" placeholder="SEO 5, Сайты 10, Реклама">`+
  `<div class="xc2" style="margin-top:12px"><button data-pe="save">Сохранить</button>${p?`<button data-pe="arch">${p.arch?'Вернуть из архива':'В архив'}</button><button data-pe="del">Удалить</button>`:''}</div>`)};
@@ -34,7 +37,7 @@ PE.col=c=>{PE.c=c;document.querySelectorAll('#zjc [data-c]').forEach(x=>{x.style
 
 PE.save=()=>{const t=V('zj1').trim().replace(/['"]/g,'');if(!t){$('zj1').focus();return}
  const{svc,norm}=parseSvc(V('zj4'));
- const o={t,c:PE.c,cl:V('zcl').trim().replace(/['"]/g,''),par:safePar(PE.id,V('zpar')),plan:+V('zj2')||0,rate:+V('zj3')||0,bud:+V('zbud')||0,ps:$('zps')&&$('zps').checked?1:0,svc,norm};
+ const o={t,c:PE.c,cl:V('zcl').trim().replace(/['"]/g,''),par:safePar(PE.id,V('zpar')),plan:+V('zj2')||0,pper:V('zpp')||'',rate:+V('zj3')||0,bud:+V('zbud')||0,ps:$('zps')&&$('zps').checked?1:0,svc,norm};
  snap();S.proj=S.proj||[];if(PE.id)Object.assign(PJ(PE.id),o);else S.proj.push({id:uid(),...o});
  save();render();XT.close();toast('Проект сохранён',1)};
 
@@ -45,10 +48,12 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
 window.vPH=function(){const p=PJ(S.pf);if(!p)return'';const[w,l]=pst(p),pl=(+p.plan||0)*60,sv=pss(p);
  const head=[p.cl?esc(p.cl):'',p.ps?'⏸ на паузе':''].filter(Boolean).join(' · ');
  const hrs=w/60;
+ const pp=p.pper&&p.plan?perHrs(p):null,dl=pp?pp.tot-p.plan*60:0;
+ const ppl=pp?`<div class="xm2"><span>${p.pper=='m'?'Месяц':'Неделя'}: отработано <b>${hr(pp.done)}</b>, запланировано <b>${hr(pp.tot)}</b> из ${p.plan} ч · ${dl>0?'дороже плана на <b>'+hr(dl)+'</b>':dl<0?'дешевле плана на <b>'+hr(-dl)+'</b>':'точно по плану'}${finOn()&&p.rate&&dl?' ('+mny(Math.abs(dl)/60*p.rate)+')':''}</span></div>`:'';
  const money=finOn()&&p.rate?`<div class="xm2"><span>Выручка <b>${mny(hrs*p.rate)}</b></span>${p.plan?`<span>План <b>${mny(p.plan*p.rate)}</b></span>`:''}${p.bud?`<span>Бюджет осталось <b>${mny(p.bud-hrs*p.rate)}</b></span>`:''}</div>`:'';
  const ws=p.norm&&Object.keys(p.norm).length&&normOn()?weekSvc(p):null;
  const nb=ws?`<div class="xm2" style="flex-direction:column;align-items:stretch">${Object.entries(p.norm).map(([k,n])=>{const h=(ws[k]||0)/60,over=h>n;return `<div><span>${esc(k)}: <b>${hr(ws[k]||0)}</b> из ${n} ч в неделю${over?' · <b style="color:#e5484d">перерасход</b>':''}</span><div class="pb"><i style="width:${Math.min(100,h/n*100)}%;${over?'background:#e5484d':''}"></i></div></div>`}).join('')}</div>`:'';
- return `<div class="ph"><div><b>${esc(p.t)}</b>${head?` <span>${head}</span>`:''}<span>Отработано ${hr(w)}${pl?' · по плану осталось '+hr(Math.max(0,pl-w))+' из '+hr(pl):' · запланировано ещё '+hr(l)}</span></div>${pl?`<div class="pb"><i style="width:${Math.min(100,w/pl*100)}%"></i></div>`:''}${money}${nb}<div class="pills">${(p.svc||[]).map(v=>`<button class="pl ${S.sf==v?'on':''}" onclick="sfs('${v}')">${esc(v)} · ${hr(sv[v]||0)}</button>`).join('')}<button class="lnk" onclick="pedit('${p.id}')">Настроить проект</button><button class="lnk" onclick="pfs('${p.id}')">Показать всё</button></div></div>`};
+ return `<div class="ph"><div><b>${esc(p.t)}</b>${head?` <span>${head}</span>`:''}<span>Отработано ${hr(w)}${pl?' · по плану осталось '+hr(Math.max(0,pl-w))+' из '+hr(pl):' · запланировано ещё '+hr(l)}</span></div>${pl?`<div class="pb"><i style="width:${Math.min(100,w/pl*100)}%"></i></div>`:''}${money}${ppl}${nb}<div class="pills">${(p.svc||[]).map(v=>`<button class="pl ${S.sf==v?'on':''}" onclick="sfs('${v}')">${esc(v)} · ${hr(sv[v]||0)}</button>`).join('')}<button class="lnk" onclick="pedit('${p.id}')">Настроить проект</button><button class="lnk" onclick="pfs('${p.id}')">Показать всё</button></div></div>`};
 
 /* Итог архива: сверху списка архива — сумма часов по завершённым проектам (G18, часть 1) */
 window.vPWrap=vP0=>function(){const h=vP0();if(!HUB.st.arch)return h;const A=(S.proj||[]).filter(p=>p.arch);if(!A.length)return h;
