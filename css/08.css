@@ -180,3 +180,13 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .pgr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
 .pgt{background:none;border:0;padding:6px 0;min-height:44px;text-align:left;color:inherit;cursor:pointer;font:inherit}
 .pgt:focus-visible,.pgb button:focus-visible{outline:2px solid var(--ac,#2f6bff);outline-offset:2px}
+
+/* v2.12: единый стиль подписей панели этапа (без капса; значение секции — обычным текстом) */
+.ds>label{font-size:.84em;letter-spacing:0;text-transform:none;color:var(--mut);font-weight:600}
+.ds[data-sec]>label{color:var(--tx)}
+.qsum{text-transform:none;letter-spacing:0;font-size:.92em}
+.ds{padding:14px 20px}
+.pl{transition:background .15s,border-color .15s,color .15s}
+.pl:not(.on):hover{background:color-mix(in srgb,var(--tx) 5%,var(--card));border-color:color-mix(in srgb,var(--ac) 40%,var(--bd))}
+button:focus-visible,[role=button]:focus-visible{outline:2px solid color-mix(in srgb,var(--ac) 60%,transparent);outline-offset:2px}
+@media (max-width:800px){.ds{padding:12px 16px}}
