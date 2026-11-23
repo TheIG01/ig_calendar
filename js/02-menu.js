@@ -28,7 +28,7 @@ if(a=='note')return ask('Заметка',e.note||'',v=>{e.note=v});
 if(a=='pri')return menu('Важность',[['Обычное',()=>{e.pri=0},'○'],['Важное',()=>{e.pri=1},'!'],['Критичное',()=>{e.pri=2},'‼']]);
 if(a=='cat')return menu('Тема',Object.keys(S.cats).map(k=>[k,()=>{e.cat=k;S.last=k},'●']));
 if(a=='prj')return menu('Проект',[['Без проекта',()=>{e.proj=''},'∅'],...(S.proj||[]).filter(p=>!p.arch).map(p=>[p.t,()=>{e.proj=p.id},'●'])]);
-if(a=='rem')return menu('Напомнить за',[['Не напоминать',()=>{e.rem=[]},'🔕'],['В момент начала',()=>{e.rem=[0]},'0'],['5 минут',()=>{e.rem=[5]},'5'],['15 минут',()=>{e.rem=[15]},'15'],['1 час',()=>{e.rem=[60]},'1ч'],['1 день',()=>{e.rem=[1440]},'1д']]);
+if(a=='rem')return menu('Напомнить за',[['Не напоминать',()=>{e.rem=[]},'🔕'],['В момент начала',()=>{e.rem=[0]},'0'],['5 минут',()=>{e.rem=[5]},'5'],['15 минут',()=>{e.rem=[15]},'15'],['1 час',()=>{e.rem=[60]},'1ч'],['1 день',()=>{e.rem=[1440]},'1д'],['1 день и 15 минут',()=>{e.rem=[1440,15]},'1д+'],['1 день и 1 час',()=>{e.rem=[1440,60]},'1д+ч'],['1 час и 15 минут',()=>{e.rem=[60,15]},'ч+']]);
 if(a=='rpt')return menu('Повтор',[['Не повторять',()=>{e.rep={t:'none',n:1}},'—'],['Каждый день',()=>{e.rep={t:'daily',n:1}},'1д'],['По будням',()=>{e.rep={t:'weekly',n:1,sched:sc([1,2,3,4,5])}},'Пн–Пт'],['Каждую неделю',()=>{e.rep={t:'weekly',n:1,sched:sc([P(e.date).getUTCDay()])}},'1н'],['Каждый месяц',()=>{e.rep={t:'monthly',n:1}},'1м']])}
 const NE=document.createElement('div');NE.id='xn2';NE.hidden=true;NE.innerHTML='<div class="xsb"></div><div class="xsc"></div>';document.body.appendChild(NE);NE.firstChild.onclick=()=>NE.hidden=true;
 const $n=s=>NE.querySelector(s);
