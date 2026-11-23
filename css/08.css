@@ -141,3 +141,21 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .tld.emp h5{opacity:.5}
 .tle{margin:2px 0 6px;font-size:12px;opacity:.6}
 #dpS{min-height:44px;width:100%;border-radius:10px;padding:0 10px}
+
+/* v2.9.2: сводка «Агентство», канбан проекта, отчёт клиенту */
+.agy{margin-bottom:12px}
+.agy-c{margin:8px 0}
+.agy-sel{width:100%;min-height:44px;margin-top:6px;border-radius:10px;padding:0 8px}
+.kbnote{color:var(--mut);font-size:.84em;margin-bottom:10px}
+.kbw{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;scroll-snap-type:x proximity}
+.kbc{min-width:200px;flex:1 0 200px;background:var(--card);border-radius:var(--r-md,12px);padding:10px;box-shadow:var(--sh)}
+.kbc h5{margin:0 0 8px;display:flex;justify-content:space-between;gap:8px;font-size:.92em}
+.kbc h5 span{color:var(--mut);font-weight:500}
+.kbcard{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:10px;margin-bottom:8px}
+.kbcard b{display:block;font-size:.95em;overflow-wrap:anywhere}
+.kbm{color:var(--mut);font-size:.82em;margin:4px 0 8px}
+.kbcard select{width:100%;min-height:44px;border-radius:10px;padding:0 8px;background:var(--card);color:var(--tx);border:1px solid var(--bd)}
+.kbadd{display:flex;gap:6px;margin-bottom:8px}
+.kbadd input{flex:1;min-width:0;min-height:44px;border-radius:10px;padding:0 10px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}
+.kbadd button{min-width:44px;min-height:44px;border-radius:10px}
+.kbcard select:focus-visible,.kbadd input:focus-visible,.kbadd button:focus-visible,[data-kb]:focus-visible,[data-crp]:focus-visible,[data-crc]:focus-visible,[data-crw]:focus-visible,[data-crt]:focus-visible,.agy-sel:focus-visible{outline:2px solid var(--ac);outline-offset:2px}

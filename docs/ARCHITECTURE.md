@@ -102,3 +102,10 @@ index.html теперь только разметка. Стили: `css/00–07.
 - `js/23-clients.js` (после 22-projects.js): `projList`, `projDepth` (папки), `clientsHTML` (карточки клиентов), окно даты контакта (data-cli / data-cln).
 - Новые поля проекта: `par` (родитель), `nx` (дата следующего контакта клиента). Миграции нет.
 - Хаб: вкладка «Проекты» вызывает `window.vPWrap(vP)` (был `vP` напрямую). Настройка `S.set.cln`.
+
+
+## v2.9.2: js/24-agency.js, js/25-kanban.js, js/26-report.js
+- `js/24-agency.js` (после 23-clients): `window.projExtra(p)` (сводка папки и кнопка канбана, вставка в 03-hub vP), `window.agyHTML()` и обёртка `window.vPWrap` (блок «Агентство»). Поля: этап без `proj` с категорией «Агентство» раскладывается назначением `proj`.
+- `js/25-kanban.js`: канбан проекта через XT.show; поле задачи `ks` ('w' в работе, 'h' ждёт); обработчики `data-kb`, `data-kbs`, `data-kbadd`, `data-kbin`.
+- `js/26-report.js`: переопределяет `XZ.cr` (отчёт клиенту). Шаблоны 0–2, периоды, данные из `occ()`/`dur()`.
+- Новые настройки: fsm, agy, pkb, crt (строки в editSet, js/13-edit.js).

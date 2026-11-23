@@ -495,6 +495,36 @@
 - ⚠ projList — js/23-clients.js:9
 - ⚠ clientsHTML — js/23-clients.js:21
 
+## js/24-agency.js
+- on — js/24-agency.js:5
+- plural — js/24-agency.js:6
+- WEEK — js/24-agency.js:7
+- isAg — js/24-agency.js:8
+- subs — js/24-agency.js:11
+- ⚠ projExtra — js/24-agency.js:14
+- weekMin — js/24-agency.js:23
+- unassigned — js/24-agency.js:24
+- ⚠ agyHTML — js/24-agency.js:26
+
+## js/25-kanban.js
+- colOf — js/25-kanban.js:6
+- tasksOf — js/25-kanban.js:7
+- kbCard — js/25-kanban.js:9
+- kbHTML — js/25-kanban.js:13
+- kbOpen — js/25-kanban.js:20
+- kbSet — js/25-kanban.js:22
+- kbAdd — js/25-kanban.js:28
+
+## js/26-report.js
+- nr — js/26-report.js:4
+- f — js/26-report.js:5
+- choices — js/26-report.js:10
+- projsOf — js/26-report.js:13
+- span — js/26-report.js:15
+- gather — js/26-report.js:21
+- build — js/26-report.js:30
+- paint — js/26-report.js:42
+
 ## worker.js
 - J — worker.js:5
 - pad — worker.js:6
