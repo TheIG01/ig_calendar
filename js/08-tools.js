@@ -2,7 +2,8 @@
 const Q=s=>document.querySelector(s),$=s=>document.getElementById(s),BV='2026-11-20.6';
 /* журнал ошибок */
 const EL=()=>{try{return JSON.parse(localStorage.igerr||'[]')}catch(e){return[]}};
-function logE(m,s){m=String(m||'');if(/fetch|Load failed|NetworkError|ResizeObserver|aborted|Script error/i.test(m))return;const L=EL();L.push({t:new Date().toISOString().slice(0,19).replace('T',' '),m:m.slice(0,220),s:String(s||'').slice(0,80)});localStorage.igerr=JSON.stringify(L.slice(-30));if(!window._xew){window._xew=1;try{toast('Возникла ошибка. Подробности: ⚡ Ещё → Диагностика',1)}catch(e){}}}
+function logE(m,s){m=String(m||'');if(/fetch|Load failed|NetworkError|ResizeObserver|aborted|Script error/i.test(m))return;const L=EL();L.push({t:new Date().toISOString().slice(0,19).replace('T',' '),m:m.slice(0,220),s:String(s||'').slice(0,80)});localStorage.igerr=JSON.stringify(L.slice(-30));if(!window._xew){window._xew=1;try{toast('Что-то пошло не так, ваши данные в безопасности. <button onclick="copyErr()">Скопировать отчёт</button>',1)}catch(e){}}}
+function copyErr(){const r='IG calendar v'+VERSION+'\n'+navigator.userAgent+'\n'+EL().map(x=>x.t+' '+x.m+' '+x.s).join('\n');(navigator.clipboard?navigator.clipboard.writeText(r):Promise.reject()).then(()=>toast('Отчёт скопирован',1)).catch(()=>toast('Не удалось скопировать. Отчёт: Ещё → Диагностика',1))}window.copyErr=copyErr;
 addEventListener('error',e=>logE(e.message,(e.filename||'').split('/').pop()+':'+e.lineno));
 addEventListener('unhandledrejection',e=>{const r=e.reason;if(typeof r=='number'||r==null)return;logE(r.message||r,'promise')});
 /* проверка данных */
