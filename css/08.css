@@ -84,3 +84,7 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .ds.sc[data-sec]>label::after{transform:rotate(-90deg)}
 .qsum{font-weight:400;color:var(--mut);font-size:.9em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:60%}
 .qjoin{display:inline-block;text-decoration:none;margin-top:6px}
+/* v2.7.1: крупные кнопки «?» и «↺» в настройках (норма ≥44 px на телефоне) */
+.hq{width:36px;height:36px}
+.seg button{min-height:36px;padding:6px 12px}
+@media (pointer:coarse),(max-width:800px){.hq{width:44px;height:44px}.seg button{min-height:44px}input[type=range]{min-height:44px}}

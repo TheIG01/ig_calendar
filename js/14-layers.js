@@ -22,7 +22,7 @@ const WH=()=>[g('wh1',9)*60,g('wh2',18)*60];
 const FR=()=>!!window.__fr;
 function busy(d){return evs(d).filter(e=>!e.done?.[d]||1).map(e=>[tm(e.st),Math.max(tm(e.en),tm(e.st)+1)]).sort((a,b)=>a[0]-b[0])}
 function gaps(d,min,a0,b0){const B=busy(d),r=[];let p=a0;B.forEach(([s,e])=>{if(s>p&&s-p>=min)r.push([p,Math.min(s,b0)]);p=Math.max(p,e)});if(b0-p>=min)r.push([p,b0]);return r.filter(x=>x[1]-x[0]>=min)}
-function zones(){const wh=g('wz',1),fr=FR(),T=m=>m*HH/60;if(!wh&&!fr)return;const[a,b]=WH();
+function zones(){const wh=g('wz',0),fr=FR(),T=m=>m*HH/60;if(!wh&&!fr)return;const[a,b]=WH();
  QA('.col[data-d]').forEach(c=>{const d=c.dataset.d;let h='';
   if(wh){h+=`<div class="qz" style="top:0;height:${T(a)}px"></div><div class="qz" style="top:${T(b)}px;height:${T(1440-b)}px"></div>`}
   if(fr){const mn=g('fmin',30),n=tzNow(),now=d==today()?n.getUTCHours()*60+n.getUTCMinutes():0;gaps(d,mn,Math.max(a,now),b).forEach(([s,e])=>{h+=`<button class="fw" data-fw="${d}|${s}|${e}" style="top:${T(s)}px;height:${T(e-s)}px" aria-label="Свободно ${hm(s)}–${hm(e)}, создать этап">+ ${hm(s)}–${hm(e)}</button>`})}
@@ -68,7 +68,7 @@ const _es=window.editSet;
 window.layerSet=()=>{const t=(l,k,d)=>sw(l,k,[[1,'Вкл'],[0,'Выкл']],d),n=(l,k,d,a,b)=>`<div class="srow"><span>${l}</span><input type="number" min="${a}" max="${b}" value="${g(k,d)}" onchange="sv2('${k}',+this.value)" style="width:70px"></div>`;
  return t('Панель слоёв над календарём','ly',1)+sw('Раскраска этапов','cm',[['cat','По теме'],['pri','По важности'],['status','По статусу'],['proj','По проекту']],'cat')
  +sw('Метка ⚠ при пересечении','cf',[['ev','Встречи'],['all','Любые'],['off','Выкл']],'ev')
- +t('Серые «тихие зоны» вне рабочих часов','wz',1)+n('Рабочие часы: с','wh1',9,0,23)+n('Рабочие часы: до','wh2',18,1,24)+n('Свободные окна от (мин)','fmin',30,5,240)
+ +t('Серые «тихие зоны» вне рабочих часов','wz',0)+n('Рабочие часы: с','wh1',9,0,23)+n('Рабочие часы: до','wh2',18,1,24)+n('Свободные окна от (мин)','fmin',30,5,240)
  +`<div class="srow"><span>Вторая шкала времени (пояс, напр. Europe/Berlin; пусто — выкл)</span><input value="${esc(g('tz2',''))}" list="tzl" onchange="sv2('tz2',this.value.trim())" style="width:190px"><datalist id="tzl">${(Intl.supportedValuesOf?Intl.supportedValuesOf('timeZone'):[]).map(z=>'<option value="'+z+'">').join('')}</datalist></div>`
  +t('Раскрывать короткие этапы по касанию (телефон)','xs',1)+t('Стрелки и клавиши на этапах (Enter, D, Del)','kb',1)};
 if(typeof _es=='function')window.editSet=()=>_es()+layerSet();
