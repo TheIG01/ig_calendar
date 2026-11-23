@@ -50,5 +50,21 @@ if(M){const ev=(id,m,x)=>({id,_m:m,t:x||id});
   eq(c.n({theme:'dark'}),'dark');eq(['light','sleep'].includes(c.n({theme:'time'})),true)});
  t('v2.4: у вызовов sv2 в 12-settings нет inline-алертов',()=>{eq(/\b(alert|confirm|prompt)\(/.test(R('js/12-settings.js').replace(/ui\.(confirm|prompt)\(/g,'')),false)});
 }
+// v2.7.4: правка одного повтора / этого и следующих
+{const src=R('js/16-series.js');const c={};vm.createContext(c);
+ vm.runInContext(pre+cut(src,'function splitSeries(')+'\nthis.splitSeries=splitSeries;',c);
+ t('v2.7.4: «Этот и следующие»: старая серия до дня раньше, новая с даты',()=>{
+   const o={id:'a',date:'2026-11-23',st:'10:00',en:'11:00',rep:{t:'daily',n:1,end:'2026-11-30'}};
+   const {o2,nw}=c.splitSeries(o,{...o,title:'новое'},'2026-11-25','fwd');
+   eq(o2.rep.end,'2026-11-24');eq(nw.date,'2026-11-25');eq(nw.rep.end,'2026-11-30');eq(nw.title,'новое')});
+ t('v2.7.4: «Только этот»: день исключён, одноразовый этап на эту дату',()=>{
+   const o={id:'a',date:'2026-11-23',st:'10:00',en:'11:00',rep:{t:'daily',n:1}};
+   const {o2,nw}=c.splitSeries(o,{...o,st:'12:00',en:'13:00'},'2026-11-25','one');
+   eq(o2.ex,['2026-11-25']);eq(nw.rep.t,'none');eq(nw.date,'2026-11-25');eq(nw.st,'12:00')});
+ t('v2.7.4: исходная серия не мутируется',()=>{
+   const o={id:'a',date:'2026-11-23',st:'10:00',en:'11:00',rep:{t:'daily',n:1}};const j=JSON.stringify(o);c.splitSeries(o,o,'2026-11-25','fwd');eq(JSON.stringify(o),j)});
+}
+t('v2.7.4: правка повтора спрашивает область, без вызова confirm/alert',()=>{eq(/\balert\(|\bconfirm\(|\bprompt\(/.test(R('js/16-series.js')),false)});
+t('v2.7.4: 16-series.js подключён в index.html и sw.js',()=>{eq(R('index.html').includes('js/16-series.js')&&R('sw.js').includes('js/16-series.js'),true)});
 console.log(`Тесты: ${ok} ок, ${bad} ошибок`);process.exit(bad?1:0);
 t('v2.5.1: 11-ui.js подключён раньше 00-core.js (иначе пустой сайт)',()=>{const h=R('index.html');eq(h.indexOf('js/11-ui.js')>0&&h.indexOf('js/11-ui.js')<h.indexOf('js/00-core.js'),true)});

@@ -411,6 +411,13 @@
 - toggleSec — js/15-quick.js:55
 - nowSt — js/15-quick.js:64
 
+## js/16-series.js
+- splitSeries — js/16-series.js:8
+- scopeOrig — js/16-series.js:27
+- normRep — js/16-series.js:34
+- saveDd — js/16-series.js:36
+- askScope — js/16-series.js:38
+
 ## worker.js
 - J — worker.js:5
 - pad — worker.js:6
