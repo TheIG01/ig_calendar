@@ -31,5 +31,7 @@ if(M){const ev=(id,m,x)=>({id,_m:m,t:x||id});
  t('merge: правка после удаления сохраняется',()=>{const r=M.mergeS({u:1,ev:[],del:{eva:2}},{u:3,ev:[ev('a',7)]});eq(r.ev.length,1)});
  t('merge: пустые входы',()=>{const r=M.mergeS(null,undefined);eq(r.ev,[])});
  t('merge: не меняет исходные объекты',()=>{const a={u:2,ev:[ev('a',1)]},j=JSON.stringify(a);M.mergeS(a,{u:1,ev:[ev('b',1)]});eq(JSON.stringify(a),j)});
+ t('нет alert/prompt/confirm в js/',()=>{const fs=require('fs'),bad=[];fs.readdirSync(__dirname+'/../js').forEach(f=>{const x=fs.readFileSync(__dirname+'/../js/'+f,'utf8');if(/(^|[^\w.])(alert|prompt|confirm)\(/.test(x))bad.push(f)});eq(bad,[])});
+ t('ui: файл 11-ui.js и css/08.css подключены',()=>{const fs=require('fs'),h=fs.readFileSync(__dirname+'/../index.html','utf8'),w=fs.readFileSync(__dirname+'/../sw.js','utf8');eq(/11-ui\.js/.test(h)&&/08\.css/.test(h)&&/11-ui\.js/.test(w)&&/08\.css/.test(w),true)});
 }
 console.log(`Тесты: ${ok} ок, ${bad} ошибок`);process.exit(bad?1:0);

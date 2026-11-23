@@ -321,6 +321,10 @@
 - fdt — js/10-data.js:4
 - box — js/10-data.js:9
 
+## js/11-ui.js
+- q — js/11-ui.js:4
+- dlg — js/11-ui.js:9
+
 ## worker.js
 - J — worker.js:5
 - pad — worker.js:6

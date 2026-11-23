@@ -73,3 +73,4 @@ index.html теперь только разметка. Стили: `css/00–07.
 - Миграции: `SCHEMA` и `MIGS` в начале `js/00-core.js`; новая структура = новый шаг MIGS[N] + SCHEMA=N.
 
 - `js/10-data.js`: ask(), trashPut(), hist(), XT.trash/XT.hist. Поля: S.trash [{t,e}], S.hist [{t,a,n}], S.set.tzn (IANA), S.set.trashDays.
+- `js/11-ui.js` (с v2.3): `ui.confirm/choose/prompt/copy/empty`, `ic()`; `css/08.css`: токены и состояния компонентов. Новый код использует их вместо системных окон.

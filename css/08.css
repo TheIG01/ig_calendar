@@ -1,0 +1,27 @@
+/* v2.3 Дизайн-система: токены, состояния компонентов, пустые состояния, скелетоны */
+:root{--s1:4px;--s2:8px;--s3:12px;--s4:16px;--s5:24px;--s6:32px;--r-sm:10px;--r-md:12px;--r-lg:16px;--ring:0 0 0 3px color-mix(in srgb,var(--ac) 35%,transparent);--t-fast:.12s;--t-base:.2s;--read-w:720px}
+/* Единый фокус с клавиатуры */
+:where(button,a,input,select,textarea,[tabindex],[role=button]):focus-visible{outline:2px solid var(--ac);outline-offset:2px;box-shadow:var(--ring)}
+/* Нажатие, отключено, загрузка, ошибка */
+:where(button):active:not(:disabled){transform:translateY(1px)}
+:where(button,input,select,textarea):disabled,[aria-disabled=true]{opacity:.5;cursor:not-allowed}
+button.is-loading{position:relative;color:transparent!important;pointer-events:none}
+button.is-loading::after{content:"";position:absolute;inset:0;margin:auto;width:16px;height:16px;border:2px solid var(--ac);border-top-color:transparent;border-radius:50%;animation:uisp .7s linear infinite}
+.is-err,input[aria-invalid=true]{border-color:#d64545!important}
+@keyframes uisp{to{transform:rotate(360deg)}}
+/* Кнопки окон */
+.uib{display:flex;gap:var(--s2);flex-wrap:wrap;margin-top:var(--s3)}.uib button{flex:1 1 120px;min-height:44px}
+#xb input#uiv,#xb textarea#uiv{width:100%;box-sizing:border-box;font:inherit;padding:var(--s3);border:1px solid var(--bd);border-radius:var(--r-sm);background:var(--card);color:var(--tx)}
+/* Пустое состояние */
+.empty{display:flex;flex-direction:column;align-items:center;gap:var(--s2);text-align:center;padding:var(--s5) var(--s4);color:var(--mut)}
+.empty p{margin:0;max-width:34ch}.empty .xpri{min-height:44px;padding:0 var(--s4);border-radius:var(--r-md)}
+/* Иконки */
+.ic{vertical-align:-3px;flex:none}
+/* Скелетон загрузки */
+.sk{display:block;border-radius:var(--r-sm);background:linear-gradient(90deg,var(--bd),color-mix(in srgb,var(--bd) 40%,var(--card)),var(--bd));background-size:200% 100%;animation:uish 1.4s ease infinite;min-height:14px;margin:var(--s2) 0}
+@keyframes uish{to{background-position:-200% 0}}
+/* Читаемая ширина длинных текстов */
+.empty p,.xn{max-width:var(--read-w)}
+/* Настройка «Плавные анимации» = выкл, а также системное «уменьшить движение» */
+html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after{animation-duration:.001s!important;transition-duration:.001s!important}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.001s!important;transition-duration:.001s!important}}
