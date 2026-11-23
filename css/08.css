@@ -92,3 +92,8 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 /* v2.7.6: срок пункта чек-листа (O05) */
 .ckd{border:0;background:none;color:var(--mut);font:inherit;font-size:.85em;max-width:130px;min-height:36px}
 @media (pointer:coarse),(max-width:800px){.ckd{min-height:44px}}
+/* v2.7.7: вложенность пунктов чек-листа */
+.row.ckl{min-height:44px}
+.row .ci{min-width:36px;min-height:36px;border:1px solid var(--bd);background:var(--card);border-radius:10px;color:var(--mut);cursor:pointer;font-size:.95em;padding:0 6px}
+.row .ci:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+@media (pointer:coarse),(max-width:520px){.row .ci{min-width:44px;min-height:44px}}
