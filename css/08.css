@@ -159,3 +159,11 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .kbadd input{flex:1;min-width:0;min-height:44px;border-radius:10px;padding:0 10px;border:1px solid var(--bd);background:var(--card);color:var(--tx)}
 .kbadd button{min-width:44px;min-height:44px;border-radius:10px}
 .kbcard select:focus-visible,.kbadd input:focus-visible,.kbadd button:focus-visible,[data-kb]:focus-visible,[data-crp]:focus-visible,[data-crc]:focus-visible,[data-crw]:focus-visible,[data-crt]:focus-visible,.agy-sel:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+
+/* v2.9.4: перетаскивание карточек канбана (G18/N24) и результат проекта */
+.kbrow{display:flex;gap:4px;align-items:flex-start}
+.kbrow b{flex:1;min-width:0}
+.kbcard .kbh{touch-action:none;cursor:grab;flex:0 0 auto;width:30px;min-width:30px;height:44px;min-height:44px;margin:-10px 0 -10px -6px;border:0;border-radius:8px;background:transparent;box-shadow:none;color:var(--mut);font-size:1.1em;line-height:44px;text-align:center;padding:0}
+.kbcard .kbh:hover{background:var(--bd,#e6e9f0)}
+.kbcard.kbdrag{position:relative;z-index:5;opacity:.92;pointer-events:none;box-shadow:0 12px 28px rgba(20,30,60,.22);cursor:grabbing}
+.kbc.kbhot{outline:2px dashed var(--ac);outline-offset:2px}

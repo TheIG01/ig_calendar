@@ -31,13 +31,14 @@ PE.open=id=>{const p=id?PJ(id):null;if(id&&!p)return;PE.id=id||'';PE.c=p?p.c:PCO
  `<div class="xnr"><div style="flex:1"><div class="xn">План часов</div><input id="zj2" class="xin" type="number" min="0" step="1" value="${p&&p.plan?p.plan:''}" placeholder="0 = без плана"><select id="zpp" class="xin" style="margin-top:6px" aria-label="План на период"><option value="">на весь проект</option><option value="w"${p&&p.pper=='w'?' selected':''}>в неделю</option><option value="m"${p&&p.pper=='m'?' selected':''}>в месяц</option></select></div><div style="flex:1"><div class="xn">Ставка, ₽/час</div><input id="zj3" class="xin" type="number" min="0" step="50" value="${p&&p.rate?p.rate:''}" placeholder="для счёта"></div></div>`+
  `<div class="xnr"><div style="flex:1"><div class="xn">Бюджет, ₽</div><input id="zbud" class="xin" type="number" min="0" step="1000" value="${p&&p.bud?p.bud:''}" placeholder="необязательно"></div><div style="flex:1"><div class="xn">Статус</div><label class="xtg" style="display:flex;align-items:center;gap:8px;min-height:44px"><input type="checkbox" id="zps"${p&&p.ps?' checked':''}> На паузе</label></div></div>`+
  `<div class="xn">Услуги и нормы, ч в неделю (через запятую, например: SEO 5, Сайты 10)</div><input id="zj4" class="xin" value="${esc(svc)}" placeholder="SEO 5, Сайты 10, Реклама">`+
+ `<div class="xn">Результат (что получилось, для архива)</div><textarea id="zres" class="xin" rows="2" placeholder="Например: сайт запущен, позиции выросли">${esc(p?.res||'')}</textarea>`+
  `<div class="xc2" style="margin-top:12px"><button data-pe="save">Сохранить</button>${p?`<button data-pe="arch">${p.arch?'Вернуть из архива':'В архив'}</button><button data-pe="del">Удалить</button>`:''}</div>`)};
 
 PE.col=c=>{PE.c=c;document.querySelectorAll('#zjc [data-c]').forEach(x=>{x.style.borderColor=x.dataset.c==c?'var(--tx)':'transparent'})};
 
 PE.save=()=>{const t=V('zj1').trim().replace(/['"]/g,'');if(!t){$('zj1').focus();return}
  const{svc,norm}=parseSvc(V('zj4'));
- const o={t,c:PE.c,cl:V('zcl').trim().replace(/['"]/g,''),par:safePar(PE.id,V('zpar')),plan:+V('zj2')||0,pper:V('zpp')||'',rate:+V('zj3')||0,bud:+V('zbud')||0,ps:$('zps')&&$('zps').checked?1:0,svc,norm};
+ const o={t,c:PE.c,cl:V('zcl').trim().replace(/['"]/g,''),res:(V('zres')||'').trim().slice(0,500),par:safePar(PE.id,V('zpar')),plan:+V('zj2')||0,pper:V('zpp')||'',rate:+V('zj3')||0,bud:+V('zbud')||0,ps:$('zps')&&$('zps').checked?1:0,svc,norm};
  snap();S.proj=S.proj||[];if(PE.id)Object.assign(PJ(PE.id),o);else S.proj.push({id:uid(),...o});
  save();render();XT.close();toast('Проект сохранён',1)};
 

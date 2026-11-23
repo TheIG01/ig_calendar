@@ -1,4 +1,4 @@
-/* v2.9.3 (G18): итоговая карточка архивного проекта — период, часы, сделано, услуги, выручка.
+/* v2.9.4 (G17 результат, G18 возврат). v2.9.3 (G18): итоговая карточка архивного проекта — период, часы, сделано, услуги, выручка.
    Только чтение этапов проекта; новых полей данных нет. Настройка arc (по умолчанию вкл).
    Подключается поверх window.projExtra из 24-agency.js (поэтому грузится после него). */
 (()=>{
@@ -16,5 +16,13 @@ function archSum(p){
 }
 const finOn2=()=>S.set.fin==1;
 const base=window.projExtra;
-window.projExtra=function(p){let h=base?base(p):'';if(p.arch&&on())h+=archSum(p);return h};
+window.projExtra=function(p){let h=base?base(p):'';if(p.arch){if(on())h+=archSum(p);if(p.res)h+=resBlock(p)}return h};
+
+/* G17: «Результат» проекта (поле p.res) — показываем в карточке архивного проекта */
+function resBlock(p){return `<div class="xm2" style="flex-direction:column;align-items:stretch"><span>Результат: <b style="white-space:pre-wrap;font-weight:500">${esc(p.res)}</b></span></div>`}
+
+/* G18: возврат из архива и обратно — понятное подтверждение (без «Отменить», т.к. undo относится только к этапам) */
+const archMsg=p=>p?toast(p.arch?'Проект перенесён в архив':'Проект возвращён в активные',1):0;
+const parch0=XP.parch;XP.parch=function(id){parch0(id);archMsg(S.proj.find(x=>x.id==id))};
+const arch0=PE.arch;PE.arch=function(){const p=PJ(PE.id);arch0();archMsg(p)};
 })();

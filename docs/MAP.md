@@ -489,7 +489,7 @@
 - safePar — js/22-projects.js:15
 - parseSvc — js/22-projects.js:19
 - weekSvc — js/22-projects.js:22
-- ⚠ vPH — js/22-projects.js:48
+- ⚠ vPH — js/22-projects.js:49
 
 ## js/23-clients.js
 - plural — js/23-clients.js:6
@@ -515,6 +515,11 @@
 - kbOpen — js/25-kanban.js:20
 - kbSet — js/25-kanban.js:22
 - kbAdd — js/25-kanban.js:28
+- markCol — js/25-kanban.js:34
+- kbDown — js/25-kanban.js:35
+- kbEdge — js/25-kanban.js:40
+- kbMove — js/25-kanban.js:42
+- kbEnd — js/25-kanban.js:49
 
 ## js/26-report.js
 - nr — js/26-report.js:4
@@ -532,6 +537,8 @@
 - archSum — js/27-archive.js:7
 - finOn2 — js/27-archive.js:17
 - ⚠ projExtra — js/27-archive.js:19
+- resBlock — js/27-archive.js:22
+- archMsg — js/27-archive.js:25
 
 ## worker.js
 - J — worker.js:5
@@ -598,9 +605,9 @@
 - limited — worker.js:227
 - route — worker.js:228
 - runAcc — worker.js:233
-- okL — worker.js:241
-- b64 — worker.js:242
-- hp2 — worker.js:243
-- mkCred — worker.js:244
-- chk — worker.js:245
-- mkT — worker.js:246
+- okL — worker.js:242
+- b64 — worker.js:243
+- hp2 — worker.js:244
+- mkCred — worker.js:245
+- chk — worker.js:246
+- mkT — worker.js:247
