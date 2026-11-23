@@ -407,6 +407,7 @@
 - filled — js/15-quick.js:45
 - secs — js/15-quick.js:47
 - toggleSec — js/15-quick.js:55
+- nowSt — js/15-quick.js:64
 
 ## worker.js
 - J — worker.js:5

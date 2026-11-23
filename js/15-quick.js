@@ -59,3 +59,6 @@ const db=Q('#db');if(db)new MutationObserver(secs).observe(db,{childList:true});
 // Настройки
 const _es=window.editSet;window.editSet=()=>(_es?_es():'')+sw('Подсказки быстрого ввода','qk',[[1,'Вкл'],[0,'Выкл']],1)+sw('Секции в панели этапа','psec',[[1,'Вкл'],[0,'Выкл']],1)+sw('Кнопка «Присоединиться»','join',[[1,'Вкл'],[0,'Выкл']],1);
 })();
+
+// O04: кнопка «Сейчас» в панели этапа — начало на текущем времени (длительность сохраняется)
+function nowSt(){const n=tzNow(),m=n.getUTCHours()*60+n.getUTCMinutes(),st=Math.min(1435,Math.round(m/5)*5),u=(tm(dd.en)-tm(dd.st)+1440)%1440||60;dd.st=fm(st);dd.en=fm(Math.min(1439,st+u));if(dd.date!=today())dd.date=today();dre()}
