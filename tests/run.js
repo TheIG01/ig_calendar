@@ -44,3 +44,4 @@ if(M){const ev=(id,m,x)=>({id,_m:m,t:x||id});
  t('v2.4: у вызовов sv2 в 12-settings нет inline-алертов',()=>{eq(/\b(alert|confirm|prompt)\(/.test(R('js/12-settings.js').replace(/ui\.(confirm|prompt)\(/g,'')),false)});
 }
 console.log(`Тесты: ${ok} ок, ${bad} ошибок`);process.exit(bad?1:0);
+t('v2.5.1: 11-ui.js подключён раньше 00-core.js (иначе пустой сайт)',()=>{const h=R('index.html');eq(h.indexOf('js/11-ui.js')>0&&h.indexOf('js/11-ui.js')<h.indexOf('js/00-core.js'),true)});

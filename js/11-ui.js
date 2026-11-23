@@ -31,7 +31,7 @@ const ui=window.ui={
 // Esc закрывает окно
 document.addEventListener('keydown',e=>{if(e.key=='Escape'){const M=q('#xm');if(M&&!M.hidden)XT.close()}});
 // Настройка «плавные анимации»
-window.uiApply=()=>{document.documentElement.dataset.anim=S.set.anim===0?'0':'1'};
-uiApply();
+window.uiApply=()=>{try{document.documentElement.dataset.anim=S.set.anim===0?'0':'1'}catch(e){}};
+uiApply();addEventListener('DOMContentLoaded',()=>uiApply());
 window.ask=ui.confirm;
 })();
