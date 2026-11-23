@@ -23,8 +23,8 @@ function goalHrs0(g){const ids=[g.id],seen=new Set([g.id]);for(let i=0;i<ids.len
  return [w,l]}
 function goalHrs(g){return memo('gh'+g.id+today(),()=>goalHrs0(g))}
 function pgNode(g,d){const kids=S.goals.filter(x=>x.par==g.id),pc=Math.round(gpc(g)),[hw,hl]=goalHrs(g);
- const hrs=hw+hl>0?`<small>⏱ ${hr(hw)}${hl?` · ост. ${hr(hl)}`:''}</small>`:'';
- return `<div class="pgn" style="margin-left:${d*14}px"><div class="pgr"><button class="pgt" data-pgo="${g.id}">${esc(g.t)}</button>${hrs}<span>${pc}%</span></div><div class="pb"><i style="width:${pc}%"></i></div>${d<6?kids.map(k=>pgNode(k,d+1)).join(''):''}</div>`}
+ const hrs=hw+hl>0?`<small>${window.ic?window.ic('clock',12):''} ${hr(hw)}${hl?` · ост. ${hr(hl)}`:''}</small>`:'';
+ return `<div class="pgn" style="margin-left:${d*14}px"><div class="pgr"><button class="pgt" data-pgo="${g.id}">${esc(g.t)}</button>${hrs}${window.ring?window.ring(pc,30,3):`<span>${pc}%</span>`}</div>${d<6?kids.map(k=>pgNode(k,d+1)).join(''):''}</div>`}
 
 // Полоска проекта: часы (если есть план) и цели (если есть) — среднее; null — полоски нет.
 function projMixPct(p,pl,w){const h=pl?Math.min(100,w/60/pl*100):null,g=projGoalPct(p);if(h==null&&g==null)return null;if(h==null)return g;if(g==null)return h;return (h+g)/2}
