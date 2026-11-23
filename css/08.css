@@ -172,3 +172,11 @@ html[data-anim="0"] *,html[data-anim="0"] *::before,html[data-anim="0"] *::after
 .kl{display:flex;align-items:center;gap:8px;margin:6px 0}
 .ld{width:12px;height:12px;border-radius:50%;background:var(--mut);flex:none}
 .kl-g .ld{background:#22a06b}.kl-y .ld{background:#e0a100}.kl-r .ld{background:#e5484d}.kl-d .ld{background:#2f6bff}
+
+/* v2.11 цели проекта */
+.pgb{margin-top:10px;padding:10px;border-radius:12px;background:var(--card,#fcfdff);border:1px solid rgba(0,0,0,.06)}
+.pgh{display:flex;justify-content:space-between;gap:8px;align-items:baseline;margin-bottom:6px;font-size:13px}
+.pgn{margin-top:6px}
+.pgr{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px}
+.pgt{background:none;border:0;padding:6px 0;min-height:44px;text-align:left;color:inherit;cursor:pointer;font:inherit}
+.pgt:focus-visible,.pgb button:focus-visible{outline:2px solid var(--ac,#2f6bff);outline-offset:2px}

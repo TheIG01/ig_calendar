@@ -554,6 +554,14 @@
 - krHTML — js/28-goals.js:36
 - krCheck — js/28-goals.js:46
 
+## js/29-proj-goals.js
+- pgOn — js/29-proj-goals.js:4
+- goalRoot — js/29-proj-goals.js:7
+- goalProj — js/29-proj-goals.js:10
+- projTop — js/29-proj-goals.js:13
+- projGoalPct — js/29-proj-goals.js:16
+- pgNode — js/29-proj-goals.js:19
+
 ## worker.js
 - J — worker.js:5
 - pad — worker.js:6
