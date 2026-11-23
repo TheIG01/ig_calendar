@@ -1,0 +1,6 @@
+.xr2{padding:10px 0;border-bottom:1px solid var(--bd)}.xr2 .xc2{margin-top:8px}
+#xrt{position:fixed;inset:0;z-index:210;background:radial-gradient(1000px 650px at 50% 20%,#27407a 0%,#0d1122 75%);color:#e9edf8;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}#xrt[hidden]{display:none}
+.xrb{max-width:520px;display:grid;gap:18px;justify-items:center}.xrb h2{font-family:Manrope,Inter,sans-serif;font-size:clamp(28px,7vw,44px);font-weight:600;margin:0}.xrb small{color:#9aa6cc}.xrb p{margin:0;color:#c6cee8}
+#xrc{font-size:clamp(40px,12vw,64px);font-weight:300;font-variant-numeric:tabular-nums}
+.xrb button,.xrb .xc2 button{border:0;border-radius:24px;padding:13px 24px;font:inherit;font-weight:700;background:#e9edf8;color:#0d1122;cursor:pointer}.xrb .xc2{display:flex;gap:10px;flex-wrap:wrap}
+#xfs2 button{border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);color:#e9edf8;border-radius:20px;padding:8px 14px;font-size:1.1em;margin:0 3px;cursor:pointer}#xfs2 button.on{background:#e9edf8;color:#0d1122}

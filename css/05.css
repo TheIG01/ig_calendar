@@ -1,0 +1,9 @@
+.ev,.ev.new{animation-duration:.14s!important}
+.xsta{width:100%;margin:10px 0;font:inherit;font-size:16px;padding:10px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx)}
+.xsg1,.xnb{width:100%;border-radius:14px;padding:13px;background:var(--bg);color:var(--tx);font:inherit;font-weight:700;border:1px solid var(--bd)}.xnb.pri,.xsg1{background:var(--ac);color:#fff;border-color:var(--ac)}
+#xn2{position:fixed;inset:0;z-index:96}#xn2[hidden]{display:none}
+.xnk,.xnc{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}.xnk button,.xnc button{flex:1;border:1px solid var(--bd);background:var(--bg);color:var(--tx);border-radius:20px;padding:9px 12px;font:inherit;font-size:.9em}.xnk button.on,.xnc button.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.xnt{width:100%;font:inherit;font-size:18px;padding:14px;border:1px solid var(--bd);border-radius:14px;background:var(--bg);color:var(--tx);margin-bottom:10px}
+.xnr{display:flex;gap:8px;margin-bottom:10px}.xnr input{flex:1;font:inherit;font-size:16px;padding:11px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx);min-width:0}
+.xin{width:100%;font:inherit;font-size:16px;padding:11px;border:1px solid var(--bd);border-radius:12px;background:var(--bg);color:var(--tx)}
+#xloc{position:fixed;top:0;left:0;right:0;z-index:150;background:#e5484d;color:#fff;padding:8px 12px;font-size:.85em;display:flex;gap:10px;align-items:center;justify-content:center;padding-top:calc(8px + env(safe-area-inset-top))}#xloc button{border:0;border-radius:12px;padding:5px 12px;font:inherit;cursor:pointer}
