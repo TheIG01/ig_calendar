@@ -61,3 +61,9 @@ if(typeof vG=='function'){const vGBaseKR=vG;
 vG=function(){const due=krOn()?S.goals.filter(krDue):[];const bn=due.length?`<div class="tri-b" role="status"><div><b>🗓 Пора сделать чекин</b><span>${due.map(g=>esc(g.t)).join(', ')}</span></div><div class="tri-a">${due.slice(0,3).map(g=>`<button data-kgo="${g.id}">${esc(g.t)}</button>`).join('')}</div></div>`:'';return bn+vGBaseKR()}}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-kgo]');if(!b)return;XP.close();openGoal(b.dataset.kgo)});
 }
+
+// v2.10.3: режим расчёта прогресса родителя (по весу / по количеству / вручную)
+if(typeof document!=='undefined'){
+document.addEventListener('click',e=>{const b=e.target.closest('[data-pm]');if(!b||!gg)return;gg.pm=b.dataset.pm;gre()});
+document.addEventListener('input',e=>{if(!gg||!e.target.matches('[data-pv]'))return;gg.pv=Math.max(0,Math.min(100,+e.target.value||0))});
+}
