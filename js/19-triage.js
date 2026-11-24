@@ -8,7 +8,7 @@ const triMark=()=>{S.set.trL=today()};
 function triBanner(){
   if(!triDue())return '';
   const n=(S.inbox||[]).length;
-  return `<div class="tri-b" role="status"><div><b>📥 Во входящих: ${n}</b><span>Разберите за пару минут: сегодня, завтра или в проект.</span></div><div class="tri-a"><button class="xpri" data-act="tri-open">Разобрать</button><button data-act="tri-later">Позже</button></div></div>`;
+  return `<div class="tri-b" role="status"><div><b>${ic('inbox',16)} Во входящих: ${n}</b><span>Разберите за пару минут: сегодня, завтра или в проект.</span></div><div class="tri-a"><button class="xpri" data-act="tri-open">Разобрать</button><button data-act="tri-later">Позже</button></div></div>`;
 }
 // Баннер кладём в окно хаба (вкладки «Сегодня» и «Доска») после каждого render().
 function placeBanner(){

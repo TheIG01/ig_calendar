@@ -1,4 +1,4 @@
-:root{--bg:#f4f5f7;--card:#fff;--tx:#1f2430;--mut:#6c7380;--ac:#2f6bff;--bd:#e6e8ec;--r:10px;--fs:14px}
+:root{--bg:#f4f5f7;--card:#fff;--tx:#1f2430;--mut:#6c7380;--ac:#2d68fa;--bd:#e6e8ec;--r:10px;--fs:14px}
 [data-t=dark]{--bg:#12151b;--card:#1a1e26;--tx:#e9ecf1;--mut:#8b93a1;--bd:#2a303b}
 [data-t=sleep]{--bg:#26201d;--card:#2f2723;--tx:#f0e4d8;--mut:#a89888;--bd:#443830}
 [data-t=study]{--bg:#eef3ef;--card:#fbfdfb;--tx:#1d2b22;--mut:#667a6c;--bd:#d6e2d9}

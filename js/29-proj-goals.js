@@ -32,7 +32,7 @@ function projMixPct(p,pl,w){const h=pl?Math.min(100,w/60/pl*100):null,g=projGoal
 // Блок в карточке проекта (вставляется в vP).
 const W=typeof window!=='undefined'?window:globalThis;
 W.projGoalsHTML=function(p){if(!pgOn())return '';const L=projTop(p),pc=projGoalPct(p);
- return `<div class="pgb"><div class="pgh"><b>Цели проекта</b>${pc==null?'':`<span>${Math.round(pc)}% по целям</span>`}</div>${L.map(g=>pgNode(g,0)).join('')||'<small class="xemp">Цели пока не привязаны. Добавьте первую ниже.</small>'}<div class="xgi"><input id="pg${p.id}" aria-label="Название новой цели проекта" placeholder="Новая цель проекта…" style="flex:1;width:auto" data-pgin="${p.id}"><button class="xtg" data-pgadd="${p.id}" aria-label="Добавить цель в проект">+</button></div></div>`};
+ return `<div class="pgb"><div class="pgh"><b>Цели проекта</b>${pc==null?'':`<span>${Math.round(pc)}% по целям</span>`}</div>${L.map(g=>pgNode(g,0)).join('')||ui.empty('target','Цели пока не привязаны. Добавьте первую ниже.')}<div class="xgi"><input id="pg${p.id}" aria-label="Название новой цели проекта" placeholder="Новая цель проекта…" style="flex:1;width:auto" data-pgin="${p.id}"><button class="xtg" data-pgadd="${p.id}" aria-label="Добавить цель в проект">+</button></div></div>`};
 
 // Выбор проекта в окне цели (только у верхних целей).
 W.goalProjPicker=function(g){if(!pgOn()||g.par)return '';

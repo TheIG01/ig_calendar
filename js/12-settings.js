@@ -63,7 +63,7 @@ window.vLook=()=>{const s=S.set,th=s.theme;
 // Верх центра настроек: поиск, профили, сброс
 window.setTop=()=>{const cur=S.set.prof,a=allProf();
  return `<div class="card" id="stop"><input id="sq" type="search" placeholder="Найти настройку…" aria-label="Найти настройку" value="${E(window._sq||'')}" style="width:100%"><div id="sqe" class="xn" hidden>Ничего не найдено. Попробуйте другое слово.</div>
- <div class="srow" style="display:block"><span>Профиль интерфейса</span><div class="pills">${a.map(p=>`<button class="pl ${p.id==cur?'on':''}" data-act="prof-set" data-id="${p.id}" title="${E(p.d)}">${E(p.n)}</button>${p.my?`<button class="pl" data-act="prof-del" data-id="${p.id}" aria-label="Удалить профиль ${E(p.n)}">✕</button>`:''}`).join('')}<button class="pl" data-act="prof-save">＋ Сохранить свой</button></div></div>
+ <div class="srow" style="display:block"><span>Профиль интерфейса</span><div class="pills">${a.map(p=>`<button class="pl ${p.id==cur?'on':''}" data-act="prof-set" data-id="${p.id}" title="${E(p.d)}">${E(p.n)}</button>${p.my?`<button class="pl" data-act="prof-del" data-id="${p.id}" aria-label="Удалить профиль ${E(p.n)}">${ic('x',16)}</button>`:''}`).join('')}<button class="pl" data-act="prof-save">＋ Сохранить свой</button></div></div>
  <div class="bar"><button data-act="reset-look">Сбросить внешний вид и календарь</button></div></div>`};
 // После отрисовки: «?» и «↺» у строк, поиск
 const keyOf=r=>{const m=(r.innerHTML.match(/sv2\('(\w+)'/)||[])[1];return m};

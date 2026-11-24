@@ -19,7 +19,7 @@ if(typeof window!='undefined')window.gjour=gjour;
 
 // Блок «Журнал ветки» в окне цели.
 function gjHTML(g){const J=gjour(g,12),u=g.u?' '+esc(g.u):'';
- return `<div class="ds"><label>Журнал ветки</label>${J.length?J.map(x=>`<div class="row"><small>${fd(x.d,{day:'numeric',month:'short'})}</small><b>${x.v?'+'+(+x.v).toLocaleString('ru')+u:'✓'}</b><span class="sp">${esc(x.t)}${x.g!=g.t?' · <i>'+esc(x.g)+'</i>':''}</span></div>`).join(''):'<small style="color:var(--mut)">Записей пока нет. Отмечайте выполненные этапы или записывайте прогресс: история появится здесь, даже по мелким шагам.</small>'}</div>`}
+ return `<div class="ds"><label>Журнал ветки</label>${J.length?J.map(x=>`<div class="row"><small>${fd(x.d,{day:'numeric',month:'short'})}</small><b>${x.v?'+'+(+x.v).toLocaleString('ru')+u:'✓'}</b><span class="sp">${esc(x.t)}${x.g!=g.t?' · <i>'+esc(x.g)+'</i>':''}</span></div>`).join(''):ui.empty('history','Записей пока нет. Отмечайте выполненные этапы или записывайте прогресс: история появится здесь, даже по мелким шагам.')}</div>`}
 
 // v2.10.1 «Ключевые результаты» (G12): результаты внутри цели, недельный чекин, светофор.
 // Поля: g.kr [{id,t,tg,cv,u}] — результаты; g.ck [{d,n,c,kr}] — чекины; g.st — дата старта (для светофора).
@@ -35,7 +35,7 @@ function krDue(g){if(!krOn()||!(g.kr||[]).length)return false;const last=(g.ck||
 
 function krHTML(g){if(!krOn())return '';const L=g.kr||[],ck=(g.ck||[]).slice(-3).reverse(),lt=gLight(g);
  return `<div class="ds"><label>Ключевые результаты</label>
- ${lt?`<div class="kl kl-${lt.c}" role="status"><span class="ld" aria-hidden="true"></span><b>${lt.t}</b></div>`:'<small style="color:var(--mut)">Светофор появится, когда у цели будут срок и дата старта.</small>'}
+ ${lt?`<div class="kl kl-${lt.c}" role="status"><span class="ld" aria-hidden="true"></span><b>${lt.t}</b></div>`:'<small style="color:var(--mut)">Светофор появится, когда у цели будут срок и дата старта.</small>'}${window.GF?GF.html(g):''}
  ${L.map(k=>`<div class="row"><span class="sp">${esc(k.t)}</span><input type="number" min="0" value="${k.cv}" data-krv="${k.id}" aria-label="Текущее значение: ${esc(k.t)}" style="width:90px"><small>из ${fn(k.tg)}${esc(k.u||'')} · ${Math.round(krK(k))}%</small><button class="x" data-krdel="${k.id}" aria-label="Удалить результат: ${esc(k.t)}">×</button></div>`).join('')}
  <div class="bar" style="margin:0"><input id="krn" placeholder="+ результат, например «Лиды»" aria-label="Название результата" style="flex:1"><input id="krt" type="number" min="0" placeholder="цель" aria-label="Цель" style="width:100px"><button class="pri" data-kradd>Добавить</button></div>
  <small style="color:var(--mut)">Итого по результатам: ${Math.round(krPct(g))}%</small></div>
@@ -58,7 +58,7 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
  gre()});
 // Баннер «пора чекин» наверху списка целей
 if(typeof vG=='function'){const vGBaseKR=vG;
-vG=function(){const due=krOn()?S.goals.filter(krDue):[];const bn=due.length?`<div class="tri-b" role="status"><div><b>🗓 Пора сделать чекин</b><span>${due.map(g=>esc(g.t)).join(', ')}</span></div><div class="tri-a">${due.slice(0,3).map(g=>`<button data-kgo="${g.id}">${esc(g.t)}</button>`).join('')}</div></div>`:'';return bn+vGBaseKR()}}
+vG=function(){const due=krOn()?S.goals.filter(krDue):[];const bn=due.length?`<div class="tri-b" role="status"><div><b>${ic('cal',14)} Пора сделать чекин</b><span>${due.map(g=>esc(g.t)).join(', ')}</span></div><div class="tri-a">${due.slice(0,3).map(g=>`<button data-kgo="${g.id}">${esc(g.t)}</button>`).join('')}</div></div>`:'';return bn+vGBaseKR()}}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-kgo]');if(!b)return;XP.close();openGoal(b.dataset.kgo)});
 }
 

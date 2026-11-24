@@ -16,7 +16,7 @@ function paint(){const m=g('cm','cat');if(m=='cat')return;
 // --- Конфликты (E14) ---
 function conflicts(){const m=g('cf','ev');if(m=='off')return;
  QA('.col').forEach(c=>{const L=[...c.querySelectorAll('.ev[data-id]:not(.ghost)')].map(el=>({el,o:evOf(el.dataset.id),a:tm(el.dataset.s),b:Math.max(tm(el.dataset.e),tm(el.dataset.s)+25)})).filter(x=>x.o&&!x.el.classList.contains('live'));
-  L.forEach((x,i)=>{for(let j=i+1;j<L.length;j++){const y=L[j];if(x.a<y.b&&y.a<x.b){const ok=m=='all'||((!x.o.kind||x.o.kind=='event')&&(!y.o.kind||y.o.kind=='event'));if(ok){[x,y].forEach(z=>{z.el.classList.add('cfl');z.el.title+=' · ⚠ пересекается с другим этапом'})}}}})})}
+  L.forEach((x,i)=>{for(let j=i+1;j<L.length;j++){const y=L[j];if(x.a<y.b&&y.a<x.b){const ok=m=='all'||((!x.o.kind||x.o.kind=='event')&&(!y.o.kind||y.o.kind=='event'));if(ok){[x,y].forEach(z=>{z.el.classList.add('cfl');z.el.title+=' · пересекается с другим этапом'})}}}})})}
 // --- Рабочие часы и свободные окна (E10, E13) ---
 const WH=()=>[g('wh1',9)*60,g('wh2',18)*60];
 const FR=()=>!!window.__fr;
@@ -37,7 +37,7 @@ function tz2(){const z=g('tz2','');if(!z||view=='month'||view=='year'||view=='ag
 // --- Панель слоёв (U05) ---
 function bar(){QA('#lyb').forEach(x=>x.remove());if(!g('ly',1)||['year','agenda'].includes(view))return;const h=Q('.bar');if(!h)return;const off=hid();
  const cs=Object.entries(S.cats).map(([n,c])=>`<button class="pl lyc ${off.includes(n)?'off':'on'}" style="--c:${c}" data-ly="${esc(n)}" aria-pressed="${!off.includes(n)}" aria-label="Слой «${esc(n)}»: ${off.includes(n)?'скрыт':'показан'}">${esc(n)}</button>`).join('');
- h.insertAdjacentHTML('afterend',`<div class="pills" id="lyb" role="group" aria-label="Слои">${cs}<button class="pl" data-ly-pri aria-pressed="${!!window.__pr}" title="Показать только важные">★ Важные</button><button class="pl" data-fr aria-pressed="${FR()}" title="Подсветить свободное время">◌ Окна</button><button class="pl" data-ft title="Найти время для задачи">⏱ Найти время</button></div>`)}
+ h.insertAdjacentHTML('afterend',`<div class="pills" id="lyb" role="group" aria-label="Слои">${cs}<button class="pl" data-ly-pri aria-pressed="${!!window.__pr}" title="Показать только важные">${ic('star',16)} Важные</button><button class="pl" data-fr aria-pressed="${FR()}" title="Подсветить свободное время">◌ Окна</button><button class="pl" data-ft title="Найти время для задачи">${ic('clock',16)} Найти время</button></div>`)}
 document.addEventListener('click',e=>{const t=e.target;let b;
  if(b=t.closest('[data-ly]')){const n=b.dataset.ly,o=hid().slice(),i=o.indexOf(n);i<0?o.push(n):o.splice(i,1);S.set.lyOff=o;save();render()}
  else if(t.closest('[data-ly-pri]')){window.__pr=!window.__pr;render()}
@@ -67,7 +67,7 @@ window.render=function(){const r=_r.apply(this,arguments);try{bar();zones();tz2(
 const _es=window.editSet;
 window.layerSet=()=>{const t=(l,k,d)=>sw(l,k,[[1,'Вкл'],[0,'Выкл']],d),n=(l,k,d,a,b)=>`<div class="srow"><span>${l}</span><input type="number" min="${a}" max="${b}" value="${g(k,d)}" onchange="sv2('${k}',+this.value)" style="width:70px"></div>`;
  return t('Панель слоёв над календарём','ly',1)+sw('Раскраска этапов','cm',[['cat','По теме'],['pri','По важности'],['status','По статусу'],['proj','По проекту']],'cat')
- +sw('Метка ⚠ при пересечении','cf',[['ev','Встречи'],['all','Любые'],['off','Выкл']],'ev')
+ +sw('Метка при пересечении','cf',[['ev','Встречи'],['all','Любые'],['off','Выкл']],'ev')
  +t('Серые «тихие зоны» вне рабочих часов','wz',0)+n('Рабочие часы: с','wh1',9,0,23)+n('Рабочие часы: до','wh2',18,1,24)+n('Свободные окна от (мин)','fmin',30,5,240)
  +`<div class="srow"><span>Вторая шкала времени (пояс, напр. Europe/Berlin; пусто — выкл)</span><input value="${esc(g('tz2',''))}" list="tzl" onchange="sv2('tz2',this.value.trim())" style="width:190px"><datalist id="tzl">${(Intl.supportedValuesOf?Intl.supportedValuesOf('timeZone'):[]).map(z=>'<option value="'+z+'">').join('')}</datalist></div>`
  +t('Раскрывать короткие этапы по касанию (телефон)','xs',1)+t('Стрелки и клавиши на этапах (Enter, D, Del)','kb',1)};

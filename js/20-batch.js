@@ -13,16 +13,16 @@ function html(){
   const L=openL(),ps=(S.proj||[]).filter(p=>!p.arch);
   const list=L.map(x=>{const r=isRep(x.e),p=x.e.proj&&H.PJ(x.e.proj);return `<label class="bx-row"><input type="checkbox" data-bxc="${kOf(x)}"${BX.sel.has(kOf(x))?' checked':''}><span class="bx-t"><b>${esc(x.e.title||'Без названия')}</b><small>${H.dlb(x.d)}${r?' · повтор':''}${p?' · '+esc(p.t):''}</small></span></label>`}).join('');
   return `<div class="xc2" role="group" aria-label="Какие задачи показать"><button data-bxa="f" data-v="0" class="${BX.od?'':'on'}">Все открытые</button><button data-bxa="f" data-v="1" class="${BX.od?'on':''}">Только просроченные</button></div>`
-  +(L.length?`<div class="bx-list">${list}</div>`:`<div class="xemp">${BX.od?'Просроченных задач нет. Так держать!':'Открытых задач нет. Отдохните ✨'}</div>`)
+  +(L.length?`<div class="bx-list">${list}</div>`:`<div class="xemp">${BX.od?'Просроченных задач нет. Так держать!':'Открытых задач нет. Отдохните '+ic('sparkle',14)}</div>`)
   +`<div class="bx-act"><div class="xm2">Выбрано: <b id="bxn">${BX.sel.size}</b> из ${L.length}</div>`
   +`<div class="xc2"><button data-bxa="all">Выбрать все</button><button data-bxa="none">Снять выбор</button></div>`
   +`<div class="xc2"><button class="xpri" data-bxa="go" data-m="0">На сегодня</button><button data-bxa="go" data-m="1">На завтра</button><button data-bxa="go" data-m="7">Через неделю</button></div>`
   +`<div class="xc2"><button data-bxa="st" data-s="idea">Идея</button><button data-bxa="st" data-s="plan">В плане</button><button data-bxa="st" data-s="work">В работе</button><button data-bxa="st" data-s="wait">Ждёт ответа</button></div>`
-  +`<div class="xc2"><button data-bxa="done">✓ Выполнено</button><button data-bxa="del">🗑 В корзину</button></div>`
+  +`<div class="xc2"><button data-bxa="done">✓ Выполнено</button><button data-bxa="del">${ic('trash',16)} В корзину</button></div>`
   +`<div class="xgi"><select id="bxp" aria-label="Проект"><option value="">Без проекта</option>${ps.map(p=>`<option value="${p.id}">${esc(p.t)}</option>`).join('')}</select><button class="xtg" data-bxa="pr">В проект</button></div>`
   +`<p class="xn">Повторяющиеся задачи пачкой не переносятся и не удаляются: меняйте их по одной.</p></div>`;
 }
-const show=()=>XT.show('☑ Задачи: пакетные действия',html());
+const show=()=>XT.show(['check','Задачи: пакетные действия'],html());
 function bxOpen(od){BX.od=od?1:0;BX.sel.clear();if(BX.od)openL().forEach(x=>BX.sel.add(kOf(x)));show()}
 
 // Применяет fn(e,d) к отмеченным; fn возвращает false, если операция к задаче неприменима (повтор).
@@ -78,5 +78,5 @@ XP.late=()=>{if(!on())return oldLate();bxOpen(1)};
 
 // Кнопка «Выбрать задачи» над списком во вкладке «Задачи» (точка входа window.vKWrap из 03-hub).
 const oldVK=H.vK;
-window.vKWrap=function(){return (on()?'<div class="xc2"><button data-bxa="open">☑ Выбрать задачи</button></div>':'')+oldVK()};
+window.vKWrap=function(){return (on()?'<div class="xc2"><button data-bxa="open">'+ic('check',14)+' Выбрать задачи</button></div>':'')+oldVK()};
 })();

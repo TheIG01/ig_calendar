@@ -4,8 +4,8 @@ const depTarget=e=>(e&&e.dep&&e.dep!=e.id)?S.ev.find(v=>v.id==e.dep&&v.kind=='ta
 const depDone=t=>!!t.done?.[t.rep&&t.rep.t!='none'?today():t.date];
 const depOpts=e=>S.ev.filter(v=>v.kind=='task'&&v.id!=e.id&&v.status!='idea'&&!depDone(v)&&v.dep!=e.id);
 
-// Строка «⛔ ждёт: …» в карточке задачи (вызывается из meta в 03-hub.js)
-window.blkTxt=(e,d)=>{if(!(S.set.dpb??1)||e.kind!='task'||e.done?.[d])return'';const t=depTarget(e);if(!t||depDone(t))return'';return `<span class="od">⛔ ждёт: ${esc(t.title||'Без названия')}</span>`};
+// Строка «ждёт: …» в карточке задачи (вызывается из meta в 03-hub.js)
+window.blkTxt=(e,d)=>{if(!(S.set.dpb??1)||e.kind!='task'||e.done?.[d])return'';const t=depTarget(e);if(!t||depDone(t))return'';return `<span class="od">${ic('block',14)} ждёт: ${esc(t.title||'Без названия')}</span>`};
 
 // Поле «Зависит от» в форме задачи (вставляется в dHTML, 00-core.js)
 window.depHTML=e=>{if(!(S.set.dpb??1)||e.kind!='task')return'';const cur=depTarget(e),opts=depOpts(e);if(cur&&!opts.includes(cur))opts.unshift(cur);
@@ -25,5 +25,5 @@ const tvTimeline=()=>{const t=today(),L=tvOpen();let h=L.some(x=>x.d<t)?tvSec('�
   for(let i=0;i<14;i++){const d=add(t,i),lab=i==0?'Сегодня':i==1?'Завтра':new Date(d+'T00:00:00Z').toLocaleDateString('ru',{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'});h+=tvSec(lab,L.filter(x=>x.d==d))}
   return h};
 window.vKWrap=function(){if(!(S.set.tvs??1))return oldVKW();const m=TVW.some(x=>x[0]==S.set.tvw)?S.set.tvw:'g';if(m=='g')return tvSwitch(m)+oldVKW();
-  return tvSwitch(m)+((S.set.bx??1)!==0?'<div class="xc2"><button data-bxa="open">☑ Выбрать задачи</button></div>':'')+HB.smBar()+HB.qa()+(m=='l'?tvFlat():tvTimeline())};
+  return tvSwitch(m)+((S.set.bx??1)!==0?'<div class="xc2"><button data-bxa="open">'+ic('check',14)+' Выбрать задачи</button></div>':'')+HB.smBar()+HB.qa()+(m=='l'?tvFlat():tvTimeline())};
 document.addEventListener('click',ev=>{const b=ev.target.closest('[data-tvw]');if(!b)return;S.set.tvw=b.dataset.tvw;save();window.HUB.hp()});
