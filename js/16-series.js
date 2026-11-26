@@ -3,7 +3,7 @@
 let occD=null,occId=null;
 document.addEventListener('pointerdown',e=>{const b=e.target.closest&&e.target.closest('.ev[data-id]');occId=b?b.dataset.id:null;occD=b?(b.closest('[data-d]')?.dataset.d||null):null},true);
 
-// Чистая функция (тестируется в tests/run.js): делит серию o по дате od.
+// Чистая функция: делит серию o по дате od.
 // Возвращает новую версию старой серии o2 и новый этап nw (без id).
 function splitSeries(o,e,od,mode){
   const cl=x=>JSON.parse(JSON.stringify(x)),pick=(m,f)=>{if(!m)return undefined;const r={};for(const k in m)if(f(k))r[k]=m[k];return Object.keys(r).length?r:undefined};

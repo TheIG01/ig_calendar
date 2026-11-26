@@ -334,7 +334,7 @@ function vSync(){const c=SY();return `<div class="card"><h3>Аккаунт и с
 function setHTML(){return setHTML0()}
 const setHTML0=()=>`<div class="dh"><b style="flex:1;font:700 1.35em Manrope,Inter,sans-serif">Настройки</b><button class="x" onclick="dlg.close()">×</button></div><div style="padding:6px 16px 24px">${window.setTop?setTop():''}${vSet2()+vAff()+vIface()+vSync()+(window.NC?NC.html(S.set,S.cats,S.proj):'')+vSet()}</div>`;
 function openSet(){dd=null;$('#db').dataset.s=1;$('#db').innerHTML=setHTML();dlg.showModal();window.setPost&&setPost()}
-function syDelay(){const eco=S.set.eco,idle=Date.now()-syAct;if(document.hidden)return idle>6e5?0:(eco?3e5:12e4);return eco?45e3:(idle>6e5?12e4:15e3)}
+function syDelay(){const eco=S.set.eco,idle=Date.now()-syAct;if(document.hidden)return idle>6e5?0:(eco?3e5:12e4);return eco?45e3:(idle>6e5?12e4:idle>12e4?2e4:6e3)}
 function syTick(){const d=syDelay();setTimeout(()=>{if(d||!document.hidden)sync();syTick()},d||3e4)}
 function sref(){if(dlg.open&&!dd&&$('#db').dataset.s){const y=dlg.scrollTop;$('#db').innerHTML=setHTML();window.setPost&&setPost();dlg.scrollTop=y}}
 const sel=new Set(),vt=f=>document.startViewTransition&&S.set.m!='off'?document.startViewTransition(f):f(),vr=()=>{document.body.classList.remove('side');vt(render)};

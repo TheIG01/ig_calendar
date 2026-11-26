@@ -2,7 +2,7 @@
    C09 экран блокировки (localStorage.iglk, только на устройстве), U19 звук и вибрация (S.set.snd/vol/vib), N10/N36 ссылка «только чтение» (ICS, воркер). */
 (()=>{
 const $=s=>document.getElementById(s),KN={ev:'этапы',goals:'цели',proj:'проекты',tasks:'задачи',habits:'привычки',tpl:'шаблоны'},IK=Object.keys(KN);
-/* ---- чистые функции (тесты: tests/final.js) ---- */
+/* ---- чистые функции ---- */
 function fnv(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return(h>>>0).toString(16)}
 const ids=(S,k)=>(Array.isArray(S&&S[k])?S[k]:[]).map(x=>x&&x.id).filter(x=>x!=null).map(String).sort();
 const idsHash=S=>fnv(IK.map(k=>k+':'+ids(S,k).join(',')).join('|'));
@@ -19,7 +19,7 @@ function health(i){const R=[],a=(ok,t,h)=>R.push({ok:!!ok,t,h:ok?'':h});
  a(i.sync=='ok','Синхронизация работает','Нажмите «Синхронизировать сейчас». Если не помогает — проверьте связь.');
  if(i.ping===null)a(0,'Сервер отвечает','Нет ответа. Проверьте связь и адрес сервера.');
  else if(i.ping!==undefined)a(i.ping===i.ver,'Сервер (worker.js) той же версии','На сервере '+(i.ping||'старая версия')+', на сайте '+i.ver+': вставьте worker.js в Cloudflare и нажмите Deploy.');
- if(i.me){a(i.me.tg,'Telegram-бот привязан','Привяжите бота в «Аккаунт и синхронизация».');a(i.me.wh,'Секрет вебхука задан','Необязательно, но безопаснее: docs/SECURITY.md.')}
+ if(i.me){a(i.me.tg,'Telegram-бот привязан','Привяжите бота в «Аккаунт и синхронизация».');a(i.me.wh,'Секрет вебхука задан','Необязательно, но безопаснее.')}
  a(i.notif=='granted','Уведомления в браузере разрешены','Разрешите их в настройках браузера. Необязательно: напоминания идут и в Telegram.');
  const age=i.bak?(Date.parse(i.today)-Date.parse(i.bak))/864e5:99;a(age<=3,'Автокопия свежая (не старше 3 дней)','Нажмите «Скопировать сейчас» в блоке «Копии на устройстве».');
  a(i.sw,'Работа без сети включена','Обновите страницу один раз; на iPhone добавьте сайт на главный экран.');return R}
